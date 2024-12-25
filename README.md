@@ -19,6 +19,7 @@ Flutter
 ## Quá trình phát triển ứng dụng
 
 ### Structure Diagram
+![image](https://github.com/user-attachments/assets/9445072b-1d0c-410b-ab99-bd635adfeaa8)
 
 ### Sequence Diagram
 
