@@ -3,6 +3,7 @@
 ## My Profile App
 
 ### Introduction
+![giao dien](https://github.com/user-attachments/assets/39bc38a1-386f-4829-ab0c-ef48fa7ae9ab)
 
 
 
