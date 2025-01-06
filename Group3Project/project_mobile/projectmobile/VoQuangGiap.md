@@ -31,6 +31,7 @@ class User {
     return 'Username: $username, Role: $role';
   }
 }
+
 #code main.dart
 import 'package:flutter/material.dart';
 import 'class/user.dart'; 
