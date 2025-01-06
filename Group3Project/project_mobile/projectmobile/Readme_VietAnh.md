@@ -1,24 +1,26 @@
-1. Giao diện
+# 1. Giao diện
+
 ![image](https://github.com/user-attachments/assets/18c8a217-1434-403f-86a2-8d5b22647d2a)
 
 USER LIST
+
 ![image](https://github.com/user-attachments/assets/1b9d9f4b-e0af-48f0-aa7d-5528d6c79a17)
+
 ![image](https://github.com/user-attachments/assets/c3c12776-74f3-4a89-981c-d6be22d1dfcf)
+
 
 2. Code
 #Code clas User:
-
-(
-class User {
-  String username;
-  String password;
-  String role;
-  // Constructor
-  User({required this.username, required this.password, required this.role});
-}
-
-
+```dart
+  class User {
+    String username;
+    String password;
+    String role;
+    // Constructor
+    User({required this.username, required this.password, required this.role});
+```
 #File profile_screen.dart: 
+```dart
 import 'package:flutter/material.dart';
 import 'package:projectmobile/class/user.dart';
 
@@ -57,7 +59,6 @@ class _UserListScreenState extends State<UserListScreen> {
     if (users.length < 5) {
       setState(() {
         users.add(User(
-        
           username: usernameController.text,
           password: passwordController.text,
           role: selectedRole,
@@ -221,8 +222,9 @@ class _UserListScreenState extends State<UserListScreen> {
     );
   }
 }
-'''
+```
 #Flie main.dart
+```dart
 import 'package:flutter/material.dart';
 import 'package:projectmobile/screen/home_screen.dart';
 import 'package:projectmobile/screen/math_screen.dart';
@@ -315,5 +317,5 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-#Link Repo code: https://github.com/Laius1412/nhom3
+```
+3. Link Repo code: https://github.com/Laius1412/nhom3
