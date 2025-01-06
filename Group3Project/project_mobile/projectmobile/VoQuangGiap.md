@@ -13,7 +13,7 @@
 
 
 #Code user.dart
-
+``` 
 class User {
 
   String username;
@@ -31,8 +31,10 @@ class User {
     return 'Username: $username, Role: $role';
   }
 }
+```
 
 #code main.dart
+```
 import 'package:flutter/material.dart';
 
 import 'class/user.dart'; 
@@ -307,7 +309,7 @@ class _UserAppState extends State<UserApp> {
     );
   }
 }
-
+```
 3. Link Github đến repo của code vừa viết.
    https://github.com/Laius1412/nhom3
 
