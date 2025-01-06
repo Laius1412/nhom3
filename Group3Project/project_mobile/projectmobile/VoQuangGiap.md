@@ -34,29 +34,41 @@ class User {
 
 #code main.dart
 import 'package:flutter/material.dart';
+
 import 'class/user.dart'; 
 
 void main() {
+
   runApp(UserApp());
+  
 }
 
 class UserApp extends StatefulWidget {
+
   @override
+  
   _UserAppState createState() => _UserAppState();
+  
 }
 
 class _UserAppState extends State<UserApp> {
+
   final List<User> users = [];
+  
   final _formKey = GlobalKey<FormState>();
+  
 
   // Controllers for the input fields
   final TextEditingController _usernameController = TextEditingController();
+  
   final TextEditingController _passwordController = TextEditingController();
 
   // Variable for selected role
+  
   String? _selectedRole;
 
   // Function to add a user
+  
   void _addUser() {
     if (_formKey.currentState!.validate()) {
       setState(() {
