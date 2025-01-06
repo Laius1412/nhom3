@@ -8,6 +8,8 @@ Dưới đây là giao diện hiển thị 5 bản ghi người dùng trên ứn
 
 ## 2. Mã chính
 
+### Class User
+
 class User {
   String username;
   String password;
@@ -18,14 +20,15 @@ class User {
     required this.password,
     required this.role,
   });
-}
-Object của Class User
-Dưới đây là đoạn mã tạo danh sách người dùng trong ứng dụng:
 
-final List<User> users = [];
-Mã trong main.dart
-dart
-Sao chép mã
+  @override
+  String toString() {
+    return 'Username: $username, Role: $role';
+  }
+}
+
+### Cập nhật tại profile_screen.dart
+
 import 'package:flutter/material.dart';
 
 class User {
@@ -136,6 +139,7 @@ class _UserGridScreenState extends State<UserGridScreen> {
     );
   }
 }
+
 
 ## 3. Liên kết GitHub
 
