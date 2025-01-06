@@ -7,7 +7,8 @@ USER LIST
 
 2. Code
 #Code clas User:
-'''
+
+(
 class User {
   String username;
   String password;
@@ -16,12 +17,14 @@ class User {
   User({required this.username, required this.password, required this.role});
 }
 
+
 #File profile_screen.dart: 
 import 'package:flutter/material.dart';
 import 'package:projectmobile/class/user.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
+  
   Widget build(BuildContext context) {
     return UserListScreen();
   }
@@ -54,6 +57,7 @@ class _UserListScreenState extends State<UserListScreen> {
     if (users.length < 5) {
       setState(() {
         users.add(User(
+        
           username: usernameController.text,
           password: passwordController.text,
           role: selectedRole,
