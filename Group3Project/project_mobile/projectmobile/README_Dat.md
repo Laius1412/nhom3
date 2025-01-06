@@ -1,6 +1,4 @@
-# User Grid App
-
-Ứng dụng Flutter hiển thị danh sách người dùng dưới dạng `GridView`. Dữ liệu người dùng bao gồm `username`, `password`, và `role`. Ứng dụng cho phép nhập tối đa 5 bản ghi và hiển thị chúng một cách trực quan.
+# Flash Football App
 
 ## 1. Ảnh chụp màn hình
 
