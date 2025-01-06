@@ -4,7 +4,13 @@
 
 ## 1. Ảnh chụp màn hình
 
+Giao diện trang chủ:
+
+![image](https://github.com/user-attachments/assets/f0cb1686-630b-4a3f-a62d-fd52d208640b)
+
 Dưới đây là giao diện hiển thị 5 bản ghi người dùng trên ứng dụng:
+
+![image](https://github.com/user-attachments/assets/3b25e558-6696-43ac-a358-c80d0466f7b7)
 
 ## 2. Mã chính
 
@@ -245,9 +251,12 @@ class _UserGridScreenState extends State<UserGridScreen> {
 
 ## 3. Liên kết GitHub
 
-Repository GitHub
+https://github.com/Laius1412/nhom3
+
+### Link file ReadMe:
+
+https://github.com/Laius1412/nhom3/blob/main/Group3Project/project_mobile/projectmobile/README_Dat.md
 
 ## 4. Ghi chú
 
-Mã nguồn được viết và kiểm thử trên Flutter 3.0+.
-Đảm bảo ảnh chụp màn hình (tệp screenshot.png) nằm trong thư mục gốc của dự án.
+Do mạng yếu nên em chưa commit code lên được.
