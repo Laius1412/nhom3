@@ -2,34 +2,11 @@
 
 Ứng dụng Flutter hiển thị danh sách người dùng dưới dạng `GridView`. Dữ liệu người dùng bao gồm `username`, `password`, và `role`. Ứng dụng cho phép nhập tối đa 5 bản ghi và hiển thị chúng một cách trực quan.
 
----
-
-## 1. Cách chạy ứng dụng
-
-### Bước 1: Clone repository
-Sử dụng lệnh sau để clone repo:
-```bash
-git clone <link_repo_github>
-
-### Bước 2: Cài đặt Flutter
-
-Đảm bảo bạn đã cài đặt Flutter SDK trên máy tính của mình.
-
-### Bước 3: Cài đặt thư viện
-Chạy lệnh sau trong thư mục dự án:
-
-flutter pub get
-
-### Bước 4: Chạy ứng dụng
-
-Sử dụng lệnh:
-flutter run
-
-## 2. Ảnh chụp màn hình
+## 1. Ảnh chụp màn hình
 
 Dưới đây là giao diện hiển thị 5 bản ghi người dùng trên ứng dụng:
 
-## 3. Mã chính
+## 2. Mã chính
 
 class User {
   String username;
@@ -160,11 +137,11 @@ class _UserGridScreenState extends State<UserGridScreen> {
   }
 }
 
-## 4. Liên kết GitHub
+## 3. Liên kết GitHub
 
 Repository GitHub
 
-## 5. Ghi chú
+## 4. Ghi chú
 
 Mã nguồn được viết và kiểm thử trên Flutter 3.0+.
 Đảm bảo ảnh chụp màn hình (tệp screenshot.png) nằm trong thư mục gốc của dự án.
