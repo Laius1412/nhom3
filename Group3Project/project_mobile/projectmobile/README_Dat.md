@@ -14,35 +14,26 @@ Dưới đây là giao diện hiển thị 5 bản ghi người dùng trên ứn
 
 ### Class User
 
+```dart
 class User {
-
   String username;
-  
   String password;
-  
   String role;
-
   User({
-  
     required this.username,
-    
     required this.password,
-    
     required this.role,
-    
   });
-
   @override
-  
   String toString() {
-  
     return 'Username: $username, Role: $role';
-    
   }  
 }
+```
 
 ### Cập nhật tại profile_screen.dart
 
+```dartdart
 import 'package:flutter/material.dart';
 
 class User {
@@ -244,7 +235,7 @@ class _UserGridScreenState extends State<UserGridScreen> {
   }
 
 }
-
+```
 
 ## 3. Liên kết GitHub
 
