@@ -38,8 +38,7 @@ class User {
   
     return 'Username: $username, Role: $role';
     
-  }
-  
+  }  
 }
 
 ### Cập nhật tại profile_screen.dart
