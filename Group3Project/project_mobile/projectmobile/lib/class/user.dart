@@ -3,6 +3,5 @@ class User {
   String password;
   String role;
 
-  // Constructor
   User({required this.username, required this.password, required this.role});
 }

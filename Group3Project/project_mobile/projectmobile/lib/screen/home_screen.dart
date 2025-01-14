@@ -7,8 +7,11 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Home'),
       ),
-      body: Center(
-        child: Text('This is the Home Screen'),
+      body: Container(
+        // color: Color(0xFF0A0A23),
+        child: Center(
+          child: Text('This is the Home Screen'),
+        ),
       ),
     );
   }

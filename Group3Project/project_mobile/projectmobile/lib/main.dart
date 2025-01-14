@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:projectmobile/screen/home_screen.dart';
-import 'package:projectmobile/screen/math_screen.dart';
-import 'package:projectmobile/screen/news_screen.dart';
-import 'package:projectmobile/screen/profile_screen.dart';
-import 'package:projectmobile/screen/stats_screen.dart';
+import 'screen/home_screen.dart';
+import 'screen/math_screen.dart';
+import 'screen/news_screen.dart';
+import 'screen/profile_screen.dart';
+import 'screen/stats_screen.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -16,14 +16,16 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-      colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 0, 60, 0), // Màu xanh đậm hơn
-          primary: const Color.fromARGB(255, 0, 50, 0), // Màu chính đậm hơn
-          secondary: Colors.green, // Màu phụ là xanh lá
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.green, // Màu chủ đạo là xanh lá
+          primary: Colors.green, // Màu chính là xanh lá
+          secondary: Colors.greenAccent, // Màu phụ là xanh lá nhạt
         ),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'FLASH SOCCER'),
+      home: const MyHomePage(
+        title: 'FLASH SOCCER',
+      ),
     );
   }
 }
@@ -41,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
     NewsScreen(),
     MathScreen(),
     HomeScreen(),
-    StatsScreen(),
+    StandingsScreen(),
     ProfileScreen(),
   ];
   void _onItemTapped(int index) {
@@ -53,10 +55,17 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        backgroundColor: Colors.black,
+        title: Text(
+          widget.title,
+          style: TextStyle(
+            color: Colors.green,
+          ),
+          ),
+        
       ),
-      body: _screens[_selectedIndex],
+      body: 
+      _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.black, // Màu nền cho bottom bar
           type: BottomNavigationBarType.fixed, // Cho phép hiển thị tối đa 5 mục
@@ -79,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.equalizer), // Icon cho menu Search
-              label: "Thống kê",
+              label: "BXH",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person), // Icon cho menu chính
