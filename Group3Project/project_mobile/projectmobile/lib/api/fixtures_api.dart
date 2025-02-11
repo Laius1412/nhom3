@@ -5,6 +5,15 @@ const String apiKey = '444b390a0amsh964e81611163fa9p112dffjsn8c81817d45aa';
 const String apiHost = 'api-football-v1.p.rapidapi.com';
 const List<int> leagueIds = [39, 140, 135, 78, 61]; // 5 giải đấu hàng đầu
 
+// Mapping league IDs to their respective names
+const Map<int, String> leagueNames = {
+  39: 'Premier League',
+  140: 'La Liga',
+  135: 'Serie A',
+  78: 'Bundesliga',
+  61: 'Ligue 1',
+};
+
 Future<Map<int, List<Match>>> fetchMatchesByDate(DateTime date) async {
   final response = await http.get(
     Uri.https(apiHost, '/v3/fixtures', {
