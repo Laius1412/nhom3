@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "370275433451",
+    "project_id": "flashscoccer-fdb9a",
+    "storage_bucket": "flashscoccer-fdb9a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370275433451:android:983e9b2d4672ef8f5777ae",
+        "android_client_info": {
+          "package_name": "com.example.projectmobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSPkwk1rgVwAsN-sfpaAvEAkq37ba4MKc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
