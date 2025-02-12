@@ -80,47 +80,89 @@ class _StandingsScreenState extends State<StandingsScreen> {
   DropdownButton<String> buildSeasonDropdown() {
   return DropdownButton<String>(
     value: selectedLeague,
+    dropdownColor: Colors.black,
     onChanged: (String? newValue) {
       setState(() {
         selectedLeague = newValue?? '';
       });
       fetchStandingsData();
     },
+    underline: Container(),
     items: leagueIds.keys.map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
         value: value,
-        child: Text(value),
+        child: Text(
+          value,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            ),
+        
+        ),
       );
     }).toList(),
   );
-}
-DropdownButton<String> buildLeagueDropdown() {
-  return DropdownButton<String>(
-    value: selectedSeason,
-    onChanged: (String? newValue) {
-      setState(() {
-        selectedSeason = newValue?? '';
-      });
-      fetchStandingsData();
-    },
-    items: seasonIds.keys.map<DropdownMenuItem<String>>((String value) {
-      return DropdownMenuItem<String>(
-        value: value,
-        child: Text(value),
-      );
-    }).toList(),
-  );
-}
+  }
+  DropdownButton<String> buildLeagueDropdown() {
+    return DropdownButton<String>(
+      value: selectedSeason,
+      dropdownColor: Colors.black,
+      onChanged: (String? newValue) {
+        setState(() {
+          selectedSeason = newValue?? '';
+        });
+        fetchStandingsData();
+      },
+      underline: Container(),
+      items: seasonIds.keys.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Colors.white
+              ),
+            ),
+        );
+      }).toList(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 45,
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center, // Căn giữa DropdownButton
+          mainAxisAlignment: MainAxisAlignment.end, // Căn giữa DropdownButton
           children: [
-            buildLeagueDropdown(),
-            const SizedBox(width: 16),
-            buildSeasonDropdown(),
+            Container(
+              height: 30.0,
+              padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+              decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 36, 34, 34),
+              border: Border.all(
+                color: const Color.fromARGB(255, 36, 34, 34), // Màu xám cho viền
+                width: 2.0,        // Độ rộng của viền
+                ),
+              ),
+              child: buildLeagueDropdown(),
+            ),
+            const SizedBox(width: 25),
+            Container(
+              height: 30.0,
+              padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+              decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 36, 34, 34),
+              border: Border.all(
+                color: const Color.fromARGB(255, 36, 34, 34), // Màu xám cho viền
+                width: 2.0,        // Độ rộng của viền
+                ),
+              ),
+              child: buildSeasonDropdown()
+              ),
           ],
         ),
       ),
@@ -155,7 +197,12 @@ DropdownButton<String> buildLeagueDropdown() {
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              color: const Color.fromARGB(255, 10, 29, 15),
+              child: DefaultTextStyle( // Áp dụng màu chữ mặc định
+              style: const TextStyle(
+                color: Colors.white, // Đặt màu chữ trắng
+                fontWeight: FontWeight.normal,
+                ),
               child: Table(
                 columnWidths: const {
                   0: FixedColumnWidth(40), // Cột #
@@ -171,11 +218,12 @@ DropdownButton<String> buildLeagueDropdown() {
                 },
                 border: TableBorder(
                   top: BorderSide(color: Colors.grey.shade300, width: 1),
-                  bottom: BorderSide(color: Colors.grey.shade300, width: 1),
                 ),
                 children: [
                   TableRow(
-                    decoration: BoxDecoration(color: Colors.grey.shade200),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 5, 19, 8),
+                      ),
                     children: const [
                       Padding(
                         padding: EdgeInsets.all(8.0),
@@ -213,7 +261,10 @@ DropdownButton<String> buildLeagueDropdown() {
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                           'T',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                            ),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -221,7 +272,10 @@ DropdownButton<String> buildLeagueDropdown() {
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                           'H',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                            ),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -229,7 +283,10 @@ DropdownButton<String> buildLeagueDropdown() {
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                           'B',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                            ),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -260,7 +317,16 @@ DropdownButton<String> buildLeagueDropdown() {
                     ],
                   ),
                   ...standings.map((team) {
-                    return TableRow(children: [
+                    return TableRow(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: const Color.fromARGB(255, 18, 51, 27),
+                            width: 1,
+                          )
+                        )
+                      ),
+                      children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
@@ -269,11 +335,11 @@ DropdownButton<String> buildLeagueDropdown() {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(6.0),
                         child: Image.network(
                           team.team?.logo ?? '',
-                          width: 30,
-                          height: 30,
+                          width: 25,
+                          height: 25,
                           errorBuilder: (context, error, stackTrace) =>
                               const Icon(Icons.error, color: Colors.red),
                         ),
@@ -366,6 +432,7 @@ DropdownButton<String> buildLeagueDropdown() {
                 ],
               ),
             ),
+            ),
           ],
         ),
     );
@@ -374,8 +441,12 @@ DropdownButton<String> buildLeagueDropdown() {
   return SingleChildScrollView(
     scrollDirection: Axis.vertical, // Đảm bảo cuộn theo chiều dọc
     child: Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      color: const Color.fromARGB(255, 10, 29, 15),
+      child: DefaultTextStyle( // Áp dụng màu chữ mặc định
+              style: const TextStyle(
+                color: Colors.white, // Đặt màu chữ trắng
+                fontWeight: FontWeight.normal, // Tuỳ chỉnh khác nếu cần
+                ),
       child: Table(
         columnWidths: const {
           0: FixedColumnWidth(40), // Cột #
@@ -383,17 +454,19 @@ DropdownButton<String> buildLeagueDropdown() {
         },
         border: TableBorder(
           top: BorderSide(color: Colors.grey.shade300, width: 1),
-          bottom: BorderSide(color: Colors.grey.shade300, width: 1),
         ),
         children: [
           TableRow(
-            decoration: BoxDecoration(color: Colors.grey.shade200),
+            decoration: BoxDecoration(color: const Color.fromARGB(255, 5, 19, 8)),
             children: const [
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   '#',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -401,27 +474,42 @@ DropdownButton<String> buildLeagueDropdown() {
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Logo',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    ),
                   textAlign: TextAlign.center,
                 ),
               ),
             ],
           ),
           ...standings.map((team) {
-            return TableRow(children: [
+            return TableRow(
+              decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: const Color.fromARGB(255, 18, 51, 27),
+                            width: 1,
+                          )
+                        )
+                      ),
+              children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   '${team.rank}',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(6.0),
                 child: Image.network(
                   team.team?.logo ?? '',
-                  width: 30,
-                  height: 30,
+                  width: 25,
+                  height: 25,
                   errorBuilder: (context, error, stackTrace) =>
                       const Icon(Icons.error, color: Colors.red),
                 ),
@@ -430,6 +518,7 @@ DropdownButton<String> buildLeagueDropdown() {
           }).toList(),
         ],
       ),
+    ),
     ),
   );
 }
