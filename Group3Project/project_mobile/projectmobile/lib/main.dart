@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'screen/home_screen.dart';
-import 'screen/math_screen.dart';
+import 'screen/match_screen.dart';
 import 'screen/news_screen.dart';
 import 'screen/profile_screen.dart';
 import 'screen/stats_screen.dart';
+
 // import 'test.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,9 +26,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       home: MyHomePage(
-        image: Image.asset('assets/logo/logoMobileapp.png',
-        fit: BoxFit.contain,),
-        
+        image: Image.asset(
+          'assets/logo/logoMobileapp.png',
+          fit: BoxFit.contain,
+        ),
       ),
     );
   }
@@ -45,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 2;
   final List<Widget> _screens = <Widget>[
     NewsScreen(),
-    MathScreen(),
+    MatchScreen(),
     HomeScreen(),
     StandingsScreen(),
     ProfileScreen(role: 'user'),
@@ -63,30 +65,35 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
-                colors: [Color.fromARGB(255, 0, 0, 0),Color.fromARGB(255, 77, 16, 28)], // Thay đổi màu sắc gradient tại đây
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              colors: [
+                Color.fromARGB(255, 0, 0, 0),
+                Color.fromARGB(255, 77, 16, 28)
+              ], // Thay đổi màu sắc gradient tại đây
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
           ),
+        ),
         title: SizedBox(
           height: 110,
           child: widget.image,
-          ),
-          centerTitle: true,
+        ),
+        centerTitle: true,
       ),
       body: _screens[_selectedIndex],
-      bottomNavigationBar: 
-        Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-              colors: [Color.fromARGB(255, 0, 0, 0),Color.fromARGB(255, 77, 16, 28)],
-            ),
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 0, 0, 0),
+              Color.fromARGB(255, 77, 16, 28)
+            ],
           ),
-        child:BottomNavigationBar(
+        ),
+        child: BottomNavigationBar(
           backgroundColor: Colors.transparent,
           type: BottomNavigationBarType.fixed,
           selectedItemColor: Colors.white,
