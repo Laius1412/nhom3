@@ -1,12 +1,9 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:projectmobile/Model/user_model.dart';
 import 'package:projectmobile/services/firestore_service.dart';
 import 'package:projectmobile/screen/Athu/login_screen.dart';
-import 'package:projectmobile/api/CloudinaryApi.dart'; // Import CloudinaryService
 
 class ProfileScreen extends StatefulWidget {
   final String role;
@@ -19,28 +16,9 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final FirestoreService firestoreService = FirestoreService();
-  final CloudinaryService cloudinaryService = CloudinaryService();
-  final ImagePicker _picker = ImagePicker();
 
   void _logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
-  }
-
-  Future<void> _changeAvatar(String userId) async {
-    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile == null) return;
-
-    File imageFile = File(pickedFile.path);
-    String? imageUrl = await cloudinaryService.uploadImage(imageFile);
-
-    if (imageUrl != null) {
-      await firestoreService.updateUserProfile(userId, {'avatar': imageUrl});
-      setState(() {}); // Refresh UI
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Upload ảnh thất bại!")),
-      );
-    }
   }
 
   @override
@@ -86,7 +64,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Column(
                           children: [
                             GestureDetector(
-                              onTap: () => _changeAvatar(userId),
                               child: Stack(
                                 alignment: Alignment.center,
                                 children: [
