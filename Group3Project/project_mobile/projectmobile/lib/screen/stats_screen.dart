@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projectmobile/class/scoccerModel.dart';
+import 'package:projectmobile/model/scoccerModel.dart';
 import 'package:projectmobile/api/standingApi.dart';
 
 // class StandingsScreen extends StatelessWidget {
