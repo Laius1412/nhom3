@@ -53,6 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
       height: double.infinity,
       width: double.infinity,
       decoration: const BoxDecoration(
-        gradient: LinearGradient(colors: [Color.fromARGB(255, 0, 0, 0),Color.fromARGB(255, 77, 16, 28)]),
+        gradient: LinearGradient(colors: [Color.fromARGB(255, 0, 0, 0), Color.fromARGB(255, 77, 16, 28)]),
       ),
       child: const Padding(
         padding: EdgeInsets.only(top: 60.0, left: 22),
@@ -94,25 +95,27 @@ class _LoginScreenState extends State<LoginScreen> {
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildTextField(_emailController, 'Gmail', Icons.check, false),
-              const SizedBox(height: 20),
-              _buildTextField(_passwordController, 'Mật khẩu', Icons.visibility_off, true),
-              const SizedBox(height: 20),
-              const Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'Quên mật khẩu?',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Color(0xff281537)),
+          child: SingleChildScrollView( // Add this
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildTextField(_emailController, 'Gmail', Icons.check, false),
+                const SizedBox(height: 20),
+                _buildTextField(_passwordController, 'Mật khẩu', Icons.visibility_off, true),
+                const SizedBox(height: 20),
+                const Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'Quên mật khẩu?',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Color(0xff281537)),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 70),
-              _buildLoginButton(),
-              const SizedBox(height: 150),
-              _buildRegisterPrompt(),
-            ],
+                const SizedBox(height: 70),
+                _buildLoginButton(),
+                const SizedBox(height: 40), // Reduced from 150 to 40
+                _buildRegisterPrompt(),
+              ],
+            ),
           ),
         ),
       ),
@@ -152,7 +155,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 fontWeight: FontWeight.bold, 
                 fontSize: 20,
                 color: isLoginHovering ? Colors.green : Colors.white,
-            
               ),
             ),
           ),

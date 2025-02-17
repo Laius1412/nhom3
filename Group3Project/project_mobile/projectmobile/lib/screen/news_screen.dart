@@ -1,154 +1,194 @@
 import 'package:flutter/material.dart';
+import 'package:projectmobile/Model/newsModel.dart';
+import 'package:projectmobile/api/newsApi.dart';
+import 'package:projectmobile/screen/NewsDetail/news_detail_screen.dart';
 
-class NewsScreen extends StatelessWidget {
-  final List<Map<String, String>> newsList = [
-    {
-      "image": "anh1.jpg",
-      "title": "Tin tức nổi bật",
-      "description": "Thua 'tan nát' ở El Classical, Real Madrid ngậm hành nhìn Barcelona nâng cúp.",
-    },
-    {
-      "title": "Báo cáo trận đấu: Deportiva Minera 0-5 Real Madrid",
-      "image": "1.png",
-    },
-    {
-      "title": "GHI BÀN! Deportiva Minera 0-5 Real Madrid (Arda Güler)",
-      "image": "2.png",
-    },
-    {
-      "title": "GHI BÀN! Deportiva Minera 0-4 Real Madrid (Modric)",
-      "image": "3.png",
-    },
-  ];
+class NewsScreen extends StatefulWidget {
+  @override
+  _NewsScreenState createState() => _NewsScreenState();
+}
+
+class _NewsScreenState extends State<NewsScreen> {
+  late Future<List<NewsArticle>> futureNews;
+
+  @override
+  void initState() {
+    super.initState();
+    futureNews = NewsApi.fetchNews();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tin tức'),
+        title: Text("Tin tức thể thao",
+        style: TextStyle(color: Colors.white),
+        ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color.fromARGB(255, 0, 0, 0), Color.fromARGB(255, 77, 16, 28)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
       ),
-      body: ListView.builder(
-        itemCount: newsList.length,
-        itemBuilder: (context, index) {
-          final news = newsList[index];
+      body: FutureBuilder<List<NewsArticle>>(
+        future: futureNews,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text("Lỗi: ${snapshot.error}"));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text("Không có tin tức"));
+          }
 
-          // Kiểm tra nếu là phần tử đầu tiên
-          if (index == 0) {
-            return Container(
-              margin: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    blurRadius: 5,
-                    offset: Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  // Ảnh bên trái
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      news["image"]!,
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      height: MediaQuery.of(context).size.width * 0.4,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                  // Văn bản bên phải
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          news["title"] ?? "Không có tiêu đề",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          news["description"] ?? "Không có mô tả.",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[700],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-}
+          // Lấy danh sách tin tức
+          List<NewsArticle> articles = snapshot.data!;
+          
+          // Tin nổi bật là bài đầu tiên
+          NewsArticle featuredArticle = articles.first;
+          List<NewsArticle> otherArticles = articles.skip(1).toList();
 
-          // Các phần tử còn lại
-          return Container(
-            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  blurRadius: 5,
-                  offset: Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Ảnh bên trái
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
-                    news["image"]!,
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(width: 10),
-                // Nội dung bên phải
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        news["title"] ?? "Không có tiêu đề",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Icon(Icons.chat_bubble_outline,
-                              size: 16, color: Colors.green),
-                          SizedBox(width: 4),
-                          Text(
-                            "2",
-                            style: TextStyle(color: Colors.green),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          return ListView(
+            children: [
+              _buildFeaturedNews(featuredArticle),
+
+              ...otherArticles.map((article) => _buildNewsItem(article)).toList(),
+            ],
           );
         },
+      ),
+    );
+  }
+
+  // 🔹 Widget hiển thị tin nổi bật
+  Widget _buildFeaturedNews(NewsArticle article) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NewsDetailScreen(article: article),
+          ),
+        );
+      },
+      child: Container(
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.3), blurRadius: 5)],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Stack(
+          alignment: Alignment.bottomLeft,
+          children: [
+            // Ảnh lớn của tin nổi bật
+            article.imageUrl != null && article.imageUrl!.isNotEmpty
+                ? Image.network(
+                    article.imageUrl!,
+                    width: double.infinity,
+                    height: 200,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        height: 200,
+                        color: Colors.grey,
+                        child: Icon(Icons.broken_image, size: 80, color: Colors.white),
+                      );
+                    },
+                  )
+                : Container(height: 200, color: Colors.grey),
+
+            // Tiêu đề bài báo
+            Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.6),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    article.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    "${article.sourceName ?? "Nguồn không xác định"} • ${article.pubDate ?? "Không rõ thời gian"}",
+                    style: TextStyle(color: Colors.white70, fontSize: 14),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+    );
+  }
+
+  // 🔹 Widget hiển thị tin tức bình thường
+    Widget _buildNewsItem(NewsArticle article) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NewsDetailScreen(article: article),
+          ),
+        );
+      },
+      child: Container(
+        height: 100,
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          color: Colors.grey[800],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: ListTile(
+          leading: Container(
+            width: 95,
+            height: 95,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.grey[200],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: article.imageUrl != null && article.imageUrl!.isNotEmpty
+                  ? Image.network(
+                      article.imageUrl!,
+                      width: 95,
+                      height: 95,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(Icons.broken_image, size: 95, color: Colors.grey);
+                      },
+                    )
+                  : Icon(Icons.image_not_supported, size: 95, color: Colors.grey),
+            ),
+          ),
+          title: Text(
+            article.title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          subtitle: Text(
+            "${article.sourceName ?? "Nguồn không xác định"} • ${article.pubDate ?? "Không rõ thời gian"}",
+            style: TextStyle(color: Colors.white70),
+          ),
+        ),
       ),
     );
   }

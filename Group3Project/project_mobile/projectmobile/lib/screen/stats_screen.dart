@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projectmobile/model/scoccerModel.dart';
+import 'package:projectmobile/Model/scoccerModel.dart';
 import 'package:projectmobile/api/standingApi.dart';
 
 // class StandingsScreen extends StatelessWidget {
@@ -91,7 +91,6 @@ class _StandingsScreenState extends State<StandingsScreen> {
     });
   }
 }
-
   DropdownButton<String> buildSeasonDropdown() {
   return DropdownButton<String>(
     value: selectedLeague,
@@ -149,7 +148,15 @@ class _StandingsScreenState extends State<StandingsScreen> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 45,
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color.fromARGB(255, 0, 0, 0), Color.fromARGB(255, 77, 16, 28)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end, // Căn giữa DropdownButton
           children: [
@@ -212,7 +219,12 @@ class _StandingsScreenState extends State<StandingsScreen> {
         child: Column(
           children: [
             Container(
-              color: const Color.fromARGB(255, 10, 29, 15),
+              // color: const Color.fromARGB(255, 10, 29, 15),
+              decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color.fromARGB(255, 10, 29, 15), Color.fromARGB(255, 26, 61, 27)],
+                ),
+              ),
               child: DefaultTextStyle( // Áp dụng màu chữ mặc định
               style: const TextStyle(
                 color: Colors.white, // Đặt màu chữ trắng
@@ -456,7 +468,11 @@ class _StandingsScreenState extends State<StandingsScreen> {
   return SingleChildScrollView(
     scrollDirection: Axis.vertical, // Đảm bảo cuộn theo chiều dọc
     child: Container(
-      color: const Color.fromARGB(255, 10, 29, 15),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color.fromARGB(255, 1, 17, 5), Color.fromARGB(255, 3, 41, 3)],
+           ),
+        ),
       child: DefaultTextStyle( // Áp dụng màu chữ mặc định
               style: const TextStyle(
                 color: Colors.white, // Đặt màu chữ trắng
@@ -472,7 +488,10 @@ class _StandingsScreenState extends State<StandingsScreen> {
         ),
         children: [
           TableRow(
-            decoration: BoxDecoration(color: const Color.fromARGB(255, 5, 19, 8)),
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 5, 19, 8),
+
+            ),
             children: const [
               Padding(
                 padding: EdgeInsets.all(8.0),
@@ -501,13 +520,13 @@ class _StandingsScreenState extends State<StandingsScreen> {
           ...standings.map((team) {
             return TableRow(
               decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: const Color.fromARGB(255, 18, 51, 27),
-                            width: 1,
-                          )
-                        )
-                      ),
+                border: Border(
+                  bottom: BorderSide(
+                    color: const Color.fromARGB(255, 18, 51, 27),
+                    width: 1,
+                    )
+                  )
+                ),
               children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
