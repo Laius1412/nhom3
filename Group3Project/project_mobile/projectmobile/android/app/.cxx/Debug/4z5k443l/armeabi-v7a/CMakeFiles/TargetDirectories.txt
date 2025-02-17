@@ -1,0 +1,2 @@
+C:/Laptrinh/nhom3/Group3Project/project_mobile/projectmobile/android/app/.cxx/Debug/4z5k443l/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Laptrinh/nhom3/Group3Project/project_mobile/projectmobile/android/app/.cxx/Debug/4z5k443l/armeabi-v7a/CMakeFiles/rebuild_cache.dir
