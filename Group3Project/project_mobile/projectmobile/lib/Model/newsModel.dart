@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:intl/intl.dart';
 
 class NewsArticle {
@@ -30,18 +29,17 @@ class NewsArticle {
       description: json['description'] ?? "Không có mô tả",
       content: json['content'] ?? "Nội dung không khả dụng",
       imageUrl: json['image_url'], // API có thể trả về null
-      pubDate:  _formatDate(json['pubDate']),
+      pubDate: _formatDate(json['pubDate']),
       sourceName: json['source_name'] ?? "Nguồn không xác định",
     );
   }
-  static String _formatDate(String? isoDate){
+  static String _formatDate(String? isoDate) {
     if (isoDate == null || isoDate.isEmpty) return "Không rõ thời gian";
-    try{
+    try {
       DateTime date = DateTime.parse(isoDate);
       return DateFormat("HH:mm, dd/MM/yyyy").format(date);
-    } catch(e){
+    } catch (e) {
       return ("Không rõ thời gian");
     }
-
   }
 }
