@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projectmobile/api/fixtures_api.dart';
-
+import 'package:projectmobile/screen/Match/infor_match_screen.dart';
 
 // class MatchScreen extends StatelessWidget {
 //   @override
@@ -18,7 +18,6 @@ import 'package:projectmobile/api/fixtures_api.dart';
 //     );
 //   }
 // }
-
 
 class MatchScreen extends StatefulWidget {
   @override
@@ -158,11 +157,10 @@ class _MatchScreenState extends State<MatchScreen> {
                             ...matches.map((match) {
                               bool isCompleted = match.status == 'FT';
                               return Card(
-                                color: const Color.fromARGB(255, 55, 55, 55),
+                                color: Color(0xFF1E1E1E),
                                 shape: RoundedRectangleBorder(
                                   side: BorderSide(
                                       color: Colors.green[800]!, width: 1),
-                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 margin: const EdgeInsets.symmetric(
                                     vertical: 4, horizontal: 8),
@@ -170,6 +168,14 @@ class _MatchScreenState extends State<MatchScreen> {
                                 shadowColor:
                                     Colors.green[800]!.withOpacity(0.5),
                                 child: ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              InforMatchScreen()),
+                                    );
+                                  },
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 8, horizontal: 16),
                                   leading: Image.network(match.homeTeamLogo,
