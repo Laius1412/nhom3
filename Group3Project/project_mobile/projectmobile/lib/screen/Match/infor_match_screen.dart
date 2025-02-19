@@ -6,7 +6,7 @@ class InforMatchScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          color: Colors.amber,
+          color: Color(0xFF000000),
           child: Center(
             child: Text(
               "This is information about this match",
