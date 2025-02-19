@@ -43,6 +43,7 @@ dependencies:
   chewie: ^1.10.0
   carousel_slider: ^4.2.1
   intl: ^0.20.2
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +55,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"  # Đường dẫn đến icon của bạn
+  adaptive_icon_background: "#000000"  # Màu nền cho icon adaptive (nếu có)
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -68,6 +75,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/icon/icon.png
     - assets/logo/logoMobileapp.png
     - assets/videos/1.mp4
     - assets/videos/2.mp4
