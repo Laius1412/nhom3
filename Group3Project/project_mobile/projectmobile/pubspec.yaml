@@ -59,7 +59,8 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/icon/icon.png"  # Đường dẫn đến icon của bạn
+  image_path: "assets/icon/icon.png" 
+  adaptive_icon_foreground: "assets/icon/icon.png" # Đường dẫn đến icon của bạn
   adaptive_icon_background: "#000000"  # Màu nền cho icon adaptive (nếu có)
 
 # For information on the generic Dart part of this file, see the
