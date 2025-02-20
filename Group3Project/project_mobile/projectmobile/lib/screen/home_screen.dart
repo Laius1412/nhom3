@@ -23,23 +23,23 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, String>> newsList = [
     {
       "title": "Báo cáo trận đấu:Man City 5-1 Arsenal ",
-      "image": "A7.jpg",
+      "image": "assets/A7.jpg",
     },
     {
       "title": "Man City đi vào lịch sử giải Ngoại hạng Anh",
-      "image": "A.jpg",
+      "image": "assets/A.jpg",
     },
     {
       "title": "GHI BÀN! Deportiva Minera 0-4 Real Madrid (Modric)",
-      "image": "3.png",
+      "image": "assets/3.png",
     },
     {
       "title": "Tin tức thể thao 10-2:Thắng đậm,Barcelona chỉ còn kém Real Madrid 2điểm",
-      "image": "7.jpg",
+      "image": "assets/7.jpg",
     },
     {
       "title": "Báo cáo trận đấu:Man City 5-1 Arsenal ",
-      "image": "A7.jpg",
+      "image": "assets/A7.jpg",
     },
   ];
 
