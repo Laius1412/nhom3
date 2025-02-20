@@ -17,13 +17,13 @@ class InforMatchScreen extends StatelessWidget {
             bottom: TabBar(
               tabs: [
                 Tab(
-                  text: "Overview",
+                  text: "Sự kiện",
                 ),
                 Tab(
-                  text: "Line-up",
+                  text: "Đội hình",
                 ),
                 Tab(
-                  text: "Stats",
+                  text: "Thống kê",
                 ),
               ],
               labelColor: Colors.green[800],
