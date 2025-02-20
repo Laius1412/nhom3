@@ -62,6 +62,7 @@ flutter_icons:
   image_path: "assets/icon/icon.png" 
   adaptive_icon_foreground: "assets/icon/icon.png" # Đường dẫn đến icon của bạn
   adaptive_icon_background: "#000000"  # Màu nền cho icon adaptive (nếu có)
+  android_application_label: "Flash Soccer"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
