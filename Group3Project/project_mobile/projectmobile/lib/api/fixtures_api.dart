@@ -57,6 +57,7 @@ class Match {
   final DateTime date;
   final String homeTeamLogo;
   final String awayTeamLogo;
+  final int fixtureId;
 
   Match({
     required this.homeTeam,
@@ -66,6 +67,7 @@ class Match {
     required this.date,
     required this.homeTeamLogo,
     required this.awayTeamLogo,
+    required this.fixtureId,
   });
 
   factory Match.fromJson(Map<String, dynamic> json) {
@@ -79,6 +81,7 @@ class Match {
       date: DateTime.parse(json['fixture']['date']),
       homeTeamLogo: json['teams']['home']['logo'],
       awayTeamLogo: json['teams']['away']['logo'],
+      fixtureId: json['fixture']['id'],
     );
   }
 }

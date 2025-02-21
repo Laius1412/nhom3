@@ -172,8 +172,9 @@ class _MatchScreenState extends State<MatchScreen> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              InforMatchScreen()),
+                                        builder: (context) => InforMatchScreen(
+                                            fixtureId: match.fixtureId),
+                                      ),
                                     );
                                   },
                                   contentPadding: const EdgeInsets.symmetric(
@@ -198,6 +199,10 @@ class _MatchScreenState extends State<MatchScreen> {
                                                 TextStyle(color: Colors.white)),
                                         Text(
                                           'Thời gian: ${match.date.toLocal().hour}:${match.date.toLocal().minute.toString().padLeft(2, '0')}',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        Text(
+                                          'Fixture ID: ${match.fixtureId}',
                                           style: TextStyle(color: Colors.white),
                                         ),
                                       ],

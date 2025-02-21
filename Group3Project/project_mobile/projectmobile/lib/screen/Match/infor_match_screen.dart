@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'event_tab.dart';
+import 'lineup_tab.dart';
+import 'stats_tab.dart';
 
 class InforMatchScreen extends StatelessWidget {
+  final int fixtureId;
+
+  InforMatchScreen({required this.fixtureId});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,7 +38,13 @@ class InforMatchScreen extends StatelessWidget {
               unselectedLabelColor: Colors.white,
             ),
           ),
-          body: TabBarView(children: []),
+          body: TabBarView(
+            children: [
+              EventTab(fixtureId: fixtureId),
+              LineupTab(),
+              StatsTab(),
+            ],
+          ),
         ),
       ),
     );
