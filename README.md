@@ -15,13 +15,20 @@ Cao Mậu Thành Đạt: 22010338
 Võ Quang Giáp: 22010343
 
 ## Mô tả ứng dụng
-Tên ứng dụng: FlashScore
 
-Mục đích: Một ứng dụng di động tổng hợp toàn bộ thông tin về lịch thi đấu, tin tức xung quanh giải đấu được tích hợp. Bên cạnh đó, người dùng có thể xem mô phỏng trực tiếp trận đấu, thông số trận đấu,...
+- Tên ứng dụng: Flash Soccer
+
+- Mô tả: Một ứng dụng di động tổng hợp toàn bộ thông tin về lịch thi đấu, thống kê, bảng xếp hạng, tin tức,... về những giải đấu hàng đấu được cập nhật liên tục
 
 ## Công nghệ 
 
-Flutter
+- Platform: Flutter
+
+- Database: Firebase, Cloudinary
+
+- API: RapidAPI (Football-API), newsdata.
+
+- UI: Material UI
 
 ## Quá trình phát triển ứng dụng
 
