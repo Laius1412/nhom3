@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
 import 'dart:async';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreen extends StatelessWidget {
   final List<String> imageUrls = [
     'assets/A1.jpg',
     'assets/A2.jpg',
@@ -23,63 +17,24 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, String>> newsList = [
     {
       "title": "Báo cáo trận đấu:Man City 5-1 Arsenal ",
-      "image": "assets/A7.jpg",
+      "image": "A7.jpg",
     },
     {
       "title": "Man City đi vào lịch sử giải Ngoại hạng Anh",
-      "image": "assets/A.jpg",
+      "image": "A.jpg",
     },
     {
       "title": "GHI BÀN! Deportiva Minera 0-4 Real Madrid (Modric)",
-      "image": "assets/3.png",
-    },
-    {
-      "title": "Tin tức thể thao 10-2:Thắng đậm,Barcelona chỉ còn kém Real Madrid 2điểm",
-      "image": "assets/7.jpg",
-    },
-    {
-      "title": "Báo cáo trận đấu:Man City 5-1 Arsenal ",
-      "image": "assets/A7.jpg",
+      "image": "3.png",
     },
   ];
-
-  final List<String> videoUrls = [
-    'assets/videos/3.mp4',
-    'assets/videos/4.mp4',
-    'assets/videos/2.mp4',
-  ];
-
-  late List<VideoPlayerController> _videoControllers;
-  late List<Future<void>> _initializeVideoPlayerFutures;
-
-  @override
-  void initState() {
-    super.initState();
-    _videoControllers = videoUrls
-        .map((url) => VideoPlayerController.asset(url))
-        .toList();
-    _initializeVideoPlayerFutures = _videoControllers
-        .map((controller) => controller.initialize())
-        .toList();
-    _videoControllers.forEach((controller) {
-      controller.setLooping(true);
-      controller.addListener(() {
-        setState(() {});
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _videoControllers.forEach((controller) => controller.dispose());
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     PageController _pageController = PageController();
     int _currentPage = 0;
 
+    // Tự động chuyển ảnh sau mỗi 3 giây
     Timer.periodic(Duration(seconds: 3), (timer) {
       if (_currentPage < imageUrls.length - 1) {
         _currentPage++;
@@ -97,11 +52,13 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text('Trang chủ', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
+        // centerTitle: true,
       ),
       body: ListView.builder(
-        itemCount: newsList.length + 3,
+        itemCount: newsList.length + 2,
         itemBuilder: (context, index) {
           if (index == 0) {
+            // Hiển thị slider ảnh ở đầu
             return Container(
               margin: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
               height: 200,
@@ -120,122 +77,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           }
+
           if (index == 1) {
+            // Thêm dòng tiêu đề "Latest News"
             return Container(
               margin: EdgeInsets.symmetric(vertical: 8),
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Icon(Icons.sports_soccer, color: Colors.blue),
-                  SizedBox(width: 8),
-                  Text(
-                    'Highlight Bóng Đá',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-
-
-          if (index == 2) {
-            final List<String> videoTitles = [
-              "HIGHLIGHTS: MANCHESTER UNITED - LEICESTER | BÀN THẮNG GÂY TRANH CÃI, NGƯỢC DÒNG PHÚT CUỐI CÙNG",
-              "HIGHLIGHTS: BRIGHTON - CHELSEA | CÚ SỐC BẤT NGỜ, NIỀM TỰ HÀO CHÂU Á TỎA SÁNG",
-              "MBAPPE GHI LIỀN 2 BÀN CÂN BẰNG TỈ SỐ THẮP LẠI HI VỌNG CHO ĐT PHÁP",
-            ];
-
-            return Container(
-              height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: videoUrls.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    width: 300,
-                    margin: EdgeInsets.symmetric(horizontal: 8),
-                    child: FutureBuilder(
-                      future: _initializeVideoPlayerFutures[index],
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                if (_videoControllers[index].value.isPlaying) {
-                                  _videoControllers[index].pause();
-                                } else {
-                                  for (var controller in _videoControllers) {
-                                    controller.pause();
-                                  }
-                                  _videoControllers[index].play();
-                                }
-                              });
-                            },
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                AspectRatio(
-                                  aspectRatio: _videoControllers[index].value.aspectRatio,
-                                  child: VideoPlayer(_videoControllers[index]),
-                                ),
-                                // Hiển thị tiêu đề khi video chưa phát
-                                AnimatedOpacity(
-                                  duration: Duration(milliseconds: 500),
-                                  opacity: _videoControllers[index].value.isPlaying ? 0.0 : 1.0,
-                                  child: Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Container(
-                                      // color: Colors.black.withOpacity(0.5),
-                                      padding: EdgeInsets.all(13),
-                                      child: Text(
-                                        videoTitles[index],
-                                        // textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                ),
-                                // Icon phát/dừng video
-                              // Icon phát/dừng video
-                                AnimatedOpacity(
-                                  duration: Duration(milliseconds: 500),
-                                  opacity: _videoControllers[index].value.isPlaying ? 0.0 : 1.0,
-                                  child: Icon(
-                                    _videoControllers[index].value.isPlaying
-                                        ? Icons.pause_circle_filled
-                                        : Icons.play_circle_fill,
-                                    size: 60,
-                                    color: Colors.white.withOpacity(0.7),
-                                  ),
-                                ),
-
-                              ],
-                            ),
-                          );
-                        } else {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                      },
-                    ),
-                  );
-                },
-              ),
-            );
-          }
-
-
-          if (index == 3) {
-            return Container(
-              margin: EdgeInsets.symmetric(vertical: 8),
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              // color: Colors.black,
               child: Row(
                 children: [
                   Icon(Icons.access_alarm, color: Colors.blue),
@@ -251,10 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             );
-          }
+          }final news = newsList[index - 2];
 
-          final news = newsList[index - 3];
-
+          // Hiển thị các tin tức phía dưới slider
           return Container(
             margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             padding: EdgeInsets.all(8),
