@@ -201,10 +201,6 @@ class _MatchScreenState extends State<MatchScreen> {
                                           'Thời gian: ${match.date.toLocal().hour}:${match.date.toLocal().minute.toString().padLeft(2, '0')}',
                                           style: TextStyle(color: Colors.white),
                                         ),
-                                        Text(
-                                          'Fixture ID: ${match.fixtureId}',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
                                       ],
                                     ),
                                   ),
