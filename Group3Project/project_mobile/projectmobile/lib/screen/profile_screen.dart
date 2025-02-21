@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projectmobile/Model/user_model.dart';
 import 'package:projectmobile/services/firestore_service.dart';
 import 'package:projectmobile/screen/Athu/login_screen.dart';
+import 'package:projectmobile/services/cloudinary_service.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String role;
@@ -15,10 +16,28 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final FirestoreService firestoreService = FirestoreService();
+  final CloudinaryService cloudinaryService = CloudinaryService();
+
 
   void _logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
   }
+
+    // Hàm cập nhật avatar khi người dùng bấm vào hình đại diện
+  Future<void> _updateAvatar(String userId) async {
+    // Gọi hàm chọn ảnh và upload lên Cloudinary
+    String? newAvatarUrl = await cloudinaryService.uploadImageFromGallery();
+    if (newAvatarUrl != null) {
+      // Cập nhật trường "avatar" trong Firestore với URL mới
+      await firestoreService.updateUserProfile(userId, {"avatar": newAvatarUrl});
+      // Gọi setState để làm mới giao diện và hiển thị avatar mới
+      setState(() {});
+    } else {
+      // Nếu upload thất bại hoặc người dùng hủy chọn ảnh
+      debugPrint("Cập nhật avatar thất bại hoặc người dùng hủy chọn ảnh.");
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,12 +82,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Column(
                           children: [
                             GestureDetector(
+                              onTap: () => _updateAvatar(userId),
                               child: Stack(
                                 alignment: Alignment.center,
                                 children: [
                                   CircleAvatar(
                                     radius: 75,
-                                    backgroundImage: const AssetImage('assets/images/avt.jpg') as ImageProvider,
+                                    // Nếu có avatar từ Firestore thì hiển thị, ngược lại dùng ảnh mặc định
+                                    backgroundImage: (user.avatar != null && user.avatar!.isNotEmpty)
+                                        ? NetworkImage(user.avatar!)
+                                        : const AssetImage('assets/images/avt.jpg') as ImageProvider,
                                   ),
                                   Positioned(
                                     bottom: 0,

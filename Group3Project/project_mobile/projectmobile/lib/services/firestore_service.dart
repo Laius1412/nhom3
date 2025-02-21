@@ -4,6 +4,7 @@ import 'package:projectmobile/Model/user_model.dart';
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  /// Lấy dữ liệu người dùng từ Firestore theo [userId].
   Future<AppUser> fetchUserData(String userId) async {
     try {
       DocumentSnapshot<Map<String, dynamic>> doc =
@@ -20,7 +21,8 @@ class FirestoreService {
     }
   }
 
-  // 🟢 Hàm cập nhật profile
+  /// Cập nhật dữ liệu người dùng (avatar, username, v.v...)
+  /// [data] là Map<String, dynamic> chứa các field cần update.
   Future<void> updateUserProfile(String userId, Map<String, dynamic> data) async {
     try {
       await _firestore.collection('users').doc(userId).update(data);

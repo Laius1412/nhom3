@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projectmobile/Model/scoccerModel.dart';
 import 'package:projectmobile/api/standingApi.dart';
+import 'package:projectmobile/screen/Team/team_screen.dart';
 
 // class StandingsScreen extends StatelessWidget {
 //   @override
@@ -354,106 +355,226 @@ class _StandingsScreenState extends State<StandingsScreen> {
                         )
                       ),
                       children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${team.rank}',
-                          textAlign: TextAlign.center,
+                        TableCell(
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TeamDetailsScreen(team: team),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${team.rank}',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: Image.network(
-                          team.team?.logo ?? '',
-                          width: 25,
-                          height: 25,
-                          errorBuilder: (context, error, stackTrace) =>
-                              const Icon(Icons.error, color: Colors.red),
+                        TableCell(
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TeamDetailsScreen(team: team),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: Image.network(
+                                team.team?.logo ?? '',
+                                width: 25,
+                                height: 25,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(Icons.error, color: Colors.red),
+                              ),
+                            ),
+                          )
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${team.team?.name ?? 'N/A'}',
-                          textAlign: TextAlign.center,
+                      TableCell(
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TeamDetailsScreen(team: team),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${team.team?.name ?? 'N/A'}',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${team.all?.played ?? 0}',
-                          textAlign: TextAlign.center,
+                        TableCell(
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TeamDetailsScreen(team: team),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${team.all?.played ?? 0}',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${team.all?.win ?? 0}',
-                          textAlign: TextAlign.center,
+                        TableCell(
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TeamDetailsScreen(team: team),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${team.all?.win ?? 0}',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${team.all?.draw ?? 0}',
-                          textAlign: TextAlign.center,
+                        TableCell(
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TeamDetailsScreen(team: team),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${team.all?.draw ?? 0}',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${team.all?.lose ?? 0}',
-                          textAlign: TextAlign.center,
+                        TableCell(
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TeamDetailsScreen(team: team),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${team.all?.lose ?? 0}',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${team.goalsDiff ?? 0}',
-                          textAlign: TextAlign.center,
+                        TableCell(
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TeamDetailsScreen(team: team),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${team.goalsDiff ?? 0}',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${team.points ?? 0}',
-                          textAlign: TextAlign.center,
+                        TableCell(
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TeamDetailsScreen(team: team),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${team.points ?? 0}',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: team.form?.split('').map((result) {
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 2),
-                                  child: Container(
-                                    width: 15,
-                                    height: 15,
-                                    decoration: BoxDecoration(
-                                      color: result == 'W'
-                                          ? Colors.green
-                                          : result == 'D'
-                                              ? Colors.grey
-                                              : Colors.red,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        result,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 10,
+                        TableCell(
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TeamDetailsScreen(team: team),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: team.form?.split('').map((result) {
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.symmetric(horizontal: 2),
+                                        child: Container(
+                                          width: 15,
+                                          height: 15,
+                                          decoration: BoxDecoration(
+                                            color: result == 'W'
+                                                ? Colors.green
+                                                : result == 'D'
+                                                    ? Colors.grey
+                                                    : Colors.red,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              result,
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }).toList() ??
-                              [],
+                                      );
+                                    }).toList() ??
+                                    [],
+                              ),
+                            ),
+                          )
                         ),
-                      ),
                     ]);
                   }).toList(),
                 ],
@@ -528,25 +649,49 @@ class _StandingsScreenState extends State<StandingsScreen> {
                   )
                 ),
               children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  '${team.rank}',
-                  style: TextStyle(
-                    color: Colors.white,
+                TableCell(
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TeamDetailsScreen(team: team),
+                        ),
+                      );
+                    },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '${team.rank}',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                    ),
                   ),
-                  textAlign: TextAlign.center,
-                ),
+                )
               ),
-              Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Image.network(
-                  team.team?.logo ?? '',
-                  width: 25,
-                  height: 25,
-                  errorBuilder: (context, error, stackTrace) =>
-                      const Icon(Icons.error, color: Colors.red),
-                ),
+              TableCell(
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TeamDetailsScreen(team: team),
+                        ),
+                      );
+                    },
+                  child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Image.network(
+                      team.team?.logo ?? '',
+                      width: 25,
+                      height: 25,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.error, color: Colors.red),
+                    ),
+                  ),
+                )
               ),
             ]);
           }).toList(),
