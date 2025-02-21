@@ -3,10 +3,11 @@ import 'package:http/http.dart' as http;
 
 const String apiKey = '06d5f460ffmshae53777a47926b5p1a1e8djsn6d46ffb5ead1';
 const String apiHost = 'api-football-v1.p.rapidapi.com';
-const List<int> leagueIds = [39, 140, 135, 78, 61]; // 5 giải đấu hàng đầu
+const List<int> leagueIds = [2, 39, 140, 135, 78, 61]; // 5 giải đấu hàng đầu
 
 // Mapping league IDs to their respective names
 const Map<int, String> leagueNames = {
+  2: 'UEFA Champions League',
   39: 'Premier League',
   140: 'La Liga',
   135: 'Serie A',

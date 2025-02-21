@@ -182,11 +182,14 @@ class _MatchScreenState extends State<MatchScreen> {
                                   leading: Image.network(match.homeTeamLogo,
                                       width: 30),
                                   title: Center(
-                                    child: Text(
-                                      isCompleted
-                                          ? '${match.homeTeam} ${match.result.split('-')[0]} - ${match.result.split('-')[1]} ${match.awayTeam}'
-                                          : '${match.homeTeam} vs ${match.awayTeam}',
-                                      style: TextStyle(color: Colors.white),
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        isCompleted
+                                            ? '${match.homeTeam} ${match.result.split('-')[0]} - ${match.result.split('-')[1]} ${match.awayTeam}'
+                                            : '${match.homeTeam} vs ${match.awayTeam}',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                     ),
                                   ),
                                   subtitle: Center(
