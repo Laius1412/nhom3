@@ -1,40 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:projectmobile/Model/match_model/event_model.dart';
 
 const String apiKey = '06d5f460ffmshae53777a47926b5p1a1e8djsn6d46ffb5ead1';
 const String apiHost = 'api-football-v1.p.rapidapi.com';
-
-class MatchEvent {
-  final int time;
-  final String type;
-  final String detail;
-  final String player;
-  final String? assist;
-  final int teamId;
-  final String teamName;
-
-  MatchEvent({
-    required this.time,
-    required this.type,
-    required this.detail,
-    required this.player,
-    this.assist,
-    required this.teamId,
-    required this.teamName,
-  });
-
-  factory MatchEvent.fromJson(Map<String, dynamic> json) {
-    return MatchEvent(
-      time: json['time']['elapsed'],
-      type: json['type'],
-      detail: json['detail'],
-      player: json['player']['name'],
-      assist: json['assist'] != null ? json['assist']['name'] : null,
-      teamId: json['team']['id'],
-      teamName: json['team']['name'],
-    );
-  }
-}
 
 Future<Map<int, List<MatchEvent>>> fetchMatchEvents(int fixtureId) async {
   final response = await http.get(

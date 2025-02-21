@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projectmobile/api/fixtures_api.dart';
 import 'package:projectmobile/screen/Match/infor_match_screen.dart';
+import 'package:projectmobile/Model/match_model/fixtures_model.dart';
 
 // class MatchScreen extends StatelessWidget {
 //   @override

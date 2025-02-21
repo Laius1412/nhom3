@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projectmobile/api/event_api.dart';
+import 'package:projectmobile/Model/match_model/event_model.dart';
 
 class EventTab extends StatelessWidget {
   final int fixtureId;
