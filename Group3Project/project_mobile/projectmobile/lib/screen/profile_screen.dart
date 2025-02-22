@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projectmobile/Model/user_model.dart';
 import 'package:projectmobile/services/firestore_service.dart';
 import 'package:projectmobile/screen/Athu/login_screen.dart';
 import 'package:projectmobile/services/cloudinary_service.dart';
+import 'package:flutter/material.dart';
+import 'package:projectmobile/screen/Athu/terms_screen.dart'; // Import trang điều khoản
 
 class ProfileScreen extends StatefulWidget {
   final String role;
@@ -18,26 +19,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final FirestoreService firestoreService = FirestoreService();
   final CloudinaryService cloudinaryService = CloudinaryService();
 
-
   void _logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
   }
 
-    // Hàm cập nhật avatar khi người dùng bấm vào hình đại diện
+  // Hàm cập nhật avatar khi người dùng bấm vào hình đại diện
   Future<void> _updateAvatar(String userId) async {
-    // Gọi hàm chọn ảnh và upload lên Cloudinary
     String? newAvatarUrl = await cloudinaryService.uploadImageFromGallery();
     if (newAvatarUrl != null) {
-      // Cập nhật trường "avatar" trong Firestore với URL mới
       await firestoreService.updateUserProfile(userId, {"avatar": newAvatarUrl});
-      // Gọi setState để làm mới giao diện và hiển thị avatar mới
       setState(() {});
     } else {
-      // Nếu upload thất bại hoặc người dùng hủy chọn ảnh
       debugPrint("Cập nhật avatar thất bại hoặc người dùng hủy chọn ảnh.");
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +83,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 children: [
                                   CircleAvatar(
                                     radius: 75,
-                                    // Nếu có avatar từ Firestore thì hiển thị, ngược lại dùng ảnh mặc định
                                     backgroundImage: (user.avatar != null && user.avatar!.isNotEmpty)
                                         ? NetworkImage(user.avatar!)
                                         : const AssetImage('assets/images/avt.jpg') as ImageProvider,
@@ -97,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     bottom: 0,
                                     right: 0,
                                     child: Container(
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: Colors.blueAccent,
                                       ),
@@ -119,6 +113,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       _buildMenuItem(icon: Icons.settings, title: 'Cài đặt'),
                       _buildMenuItem(icon: Icons.notifications, title: 'Thông báo'),
                       _buildMenuItem(icon: Icons.logout, title: 'Đăng xuất', onTap: () => _logout(context)),
+
+                      // Thêm dòng "Điều khoản & Dịch vụ"
+                      const SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => TermsScreen()),
+                          );
+                        },
+                        child: const Text(
+                          "Điều khoản & Dịch vụ",
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 16,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
