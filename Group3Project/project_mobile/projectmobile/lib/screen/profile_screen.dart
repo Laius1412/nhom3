@@ -6,6 +6,7 @@ import 'package:projectmobile/services/cloudinary_service.dart';
 import 'package:flutter/material.dart';
 import 'package:projectmobile/screen/Athu/terms_screen.dart'; // Import trang điều khoản
 import 'package:projectmobile/screen/Athu/about_screen.dart'; // Import màn hình Giới thiệu
+import 'package:projectmobile/screen/Athu/setting_screen.dart';
 
 
 class ProfileScreen extends StatefulWidget {
@@ -112,7 +113,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       const SizedBox(height: 30),
                       _buildMenuItem(icon: Icons.person, title: 'Cá nhân'),
-                      _buildMenuItem(icon: Icons.settings, title: 'Cài đặt'),
+                      
+                      _buildMenuItem(
+                          icon: Icons.settings,
+                          title: 'Cài đặt',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                            );
+                          },
+                        ),
                       _buildMenuItem(icon: Icons.notifications, title: 'Thông báo'),
                       _buildMenuItem(
                           icon: Icons.info,
