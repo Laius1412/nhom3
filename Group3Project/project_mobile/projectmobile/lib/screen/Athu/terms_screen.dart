@@ -98,6 +98,7 @@ class TermsScreen extends StatelessWidget {
               "Nếu bạn có bất kỳ câu hỏi hoặc khiếu nại nào liên quan đến điều khoản này, vui lòng liên hệ với chúng tôi qua:\n"
                 "📧 Email: PTTT@gmail.com\n"
                 "🌍 Website: www.PTTT.com"),
+            _buildSectionTitle("Cảm ơn bạn đã sử dụng FLASH SOCCER! Chúc bạn có trải nghiệm tuyệt vời cùng niềm đam mê bóng đá!"),
           ],
         ),
       ),
