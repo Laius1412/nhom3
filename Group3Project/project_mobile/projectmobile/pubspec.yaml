@@ -99,6 +99,20 @@ flutter:
     - assets/A6.jpg
     - assets/A.jpg
     - assets/A7.jpg
+    - assets/B1.jpg
+    - assets/B2.jpg
+    - assets/B3.jpg
+    - assets/B4.jpg
+    - assets/B5.jpg
+    - assets/B6.jpg
+    - assets/B7.jpg
+    - assets/B8.jpg
+    - assets/B9.jpg
+    - assets/B10.jpg
+    - assets/B11.jpg
+    - assets/B12.jpg
+    - assets/B13.jpg
+    - assets/B14.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

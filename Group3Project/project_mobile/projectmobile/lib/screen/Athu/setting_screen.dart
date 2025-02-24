@@ -6,11 +6,22 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Cài đặt", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.black,
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
+        appBar: AppBar(
+                title: Text(
+                "Cài đặt",
+                style: TextStyle(color: Colors.white),
+                ),
+                iconTheme: IconThemeData(color: Colors.white), // Màu nút back
+                flexibleSpace: Container(
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 0, 0, 0), Color.fromARGB(255, 77, 16, 28)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    ),
+                ),
+                ),
+            ),
       backgroundColor: Colors.black, // Màu nền tối
       body: ListView(
         children: [

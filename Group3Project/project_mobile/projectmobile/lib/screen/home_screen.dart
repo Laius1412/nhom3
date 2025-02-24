@@ -12,29 +12,49 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<String> imageUrls = [
     'assets/A1.jpg',
     'assets/A2.jpg',
+    'assets/B12.jpg',
+    'assets/B1.jpg',
+    'assets/B2.jpg',
+    'assets/B3.jpg',
+    'assets/B10.jpg',
+    'assets/B4.jpg',
+    'assets/B5.jpg',
+    'assets/B6.jpg',
+    'assets/B7.jpg',
+    'assets/B8.jpg',
+    'assets/B9.jpg',
+    'assets/B10.jpg',
+    'assets/B11.jpg',
+    'assets/B13.jpg',
+    'assets/B14.jpg',
     'assets/2.png',
     'assets/A3.jpg',
     'assets/A4.jpg',
   ];
 
-  final List<Map<String, String>> newsList = [
-    {
-      "title": "Báo cáo trận đấu: Man City 5-1 Arsenal",
-      "image": "assets/A7.jpg",
-    },
-    {
-      "title": "Man City đi vào lịch sử giải Ngoại hạng Anh",
-      "image": "assets/A.jpg",
-    },
-    {
-      "title": "GHI BÀN! Deportiva Minera 0-4 Real Madrid (Modric)",
-      "image": "assets/3.png",
-    },
-    {
-      "title": "Thắng đậm, Barcelona chỉ còn kém Real Madrid 2 điểm",
-      "image": "assets/7.jpg",
-    },
-  ];
+final List<Map<String, String>> newsList = [
+  {
+    "title": "Báo cáo trận đấu: Man City 5-1 Arsenal",
+    "image": "assets/A7.jpg",
+    "content": "Man City đã có một trận đấu xuất sắc khi đánh bại Arsenal với tỷ số 5-1..."
+  },
+  {
+    "title": "Man City đi vào lịch sử giải Ngoại hạng Anh",
+    "image": "assets/A.jpg",
+    "content": "Với chiến thắng này, Man City đã lập kỷ lục mới trong lịch sử giải đấu..."
+  },
+  {
+    "title": "GHI BÀN! Deportiva Minera 0-4 Real Madrid (Modric)",
+    "image": "assets/3.png",
+    "content": "Luka Modric đã tỏa sáng giúp Real Madrid giành chiến thắng áp đảo..."
+  },
+  {
+    "title": "Thắng đậm, Barcelona chỉ còn kém Real Madrid 2 điểm",
+    "image": "assets/7.jpg",
+    "content": "Barcelona vừa có chiến thắng quan trọng để rút ngắn khoảng cách với Real Madrid..."
+  },
+];
+
 
   final List<String> videoUrls = [
     'assets/videos/3.mp4',
@@ -237,17 +257,19 @@ class _HomeScreenState extends State<HomeScreen> {
         final news = newsList[index];
 
         return GestureDetector(
-          onTap: () {
+         onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => ArticleScreen(
                   title: news["title"]!,
                   imageUrl: news["image"]!,
+                  content: news["content"]!, // Truyền nội dung vào
                 ),
               ),
             );
           },
+
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             padding: EdgeInsets.all(8),
