@@ -77,7 +77,21 @@ class StatsTab extends StatelessWidget {
 
   Widget _buildStatRow(
       String statName, dynamic team1Value, dynamic team2Value) {
-    double team1Ratio = (team1Value is int && team2Value is int)
+    // Kiểm tra nếu giá trị không hợp lệ (null, NaN, không phải số)
+    if (team1Value == null ||
+        team2Value == null ||
+        team1Value is! num ||
+        team2Value is! num) {
+      team1Value = 0;
+      team2Value = 0;
+    }
+
+    // Bỏ qua nếu cả hai đội đều có giá trị bằng 0
+    if (team1Value == 0 && team2Value == 0) {
+      return const SizedBox.shrink(); // Không hiển thị gì cả
+    }
+
+    double team1Ratio = (team1Value + team2Value) > 0
         ? team1Value / (team1Value + team2Value)
         : 0.5;
 

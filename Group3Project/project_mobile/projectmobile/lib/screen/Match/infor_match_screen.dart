@@ -41,7 +41,9 @@ class InforMatchScreen extends StatelessWidget {
           body: TabBarView(
             children: [
               EventTab(fixtureId: fixtureId),
-              LineupTab(),
+              LineupTab(
+                fixtureId: fixtureId,
+              ),
               StatsTab(
                 fixtureId: fixtureId,
               ),
