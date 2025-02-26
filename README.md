@@ -50,10 +50,34 @@ Võ Quang Giáp: 22010343
 ## Quá trình phát triển ứng dụng
 
 ### Structure Diagram
-![image](https://github.com/user-attachments/assets/9445072b-1d0c-410b-ab99-bd635adfeaa8)
+
+![flashSoccerClassD drawio (4)](https://github.com/user-attachments/assets/2e5d3d9b-c5ed-4e0e-9b39-0b14093648a7)
+
+### Use Case
+
+![image](https://github.com/user-attachments/assets/7bb886db-2e7e-47c0-9b57-2226fac72c86)
+
 
 ### Sequence Diagram
 
-### Activity Diagram
+Đăng ký
+
+![image](https://github.com/user-attachments/assets/34204a0e-7215-4bab-bae4-00bd4309ab99)
+
+Đăng nhập
+
+![image](https://github.com/user-attachments/assets/3e014a8d-cf9b-4189-9b62-f164c64e6d18)
+
+Xem bảng xếp hạng
+
+![image](https://github.com/user-attachments/assets/8e3f0ae1-decb-4026-bd81-bd9120c798fd)
+
+Xem lịch bóng đá
+
+![image](https://github.com/user-attachments/assets/9c20fc5a-f1a4-4798-981c-975d3d69a9c5)
+
+Xen tin tức 
+
+![image](https://github.com/user-attachments/assets/ca84e7cc-f4c1-4fdd-baad-aa2453e4dd81)
 
 ## Chu trình phát triển
