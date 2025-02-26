@@ -12,9 +12,15 @@
 |---------------------------------------|----------------------------------------|----------------------------------------|
 | ![Ảnh 4](https://github.com/user-attachments/assets/82f696ff-e114-49f4-a5be-ed2795ca8937) | ![Ảnh 5](https://github.com/user-attachments/assets/9da845c7-ab5f-4029-8097-02499f57e355) | ![Ảnh 6](https://github.com/user-attachments/assets/47285073-d0eb-4149-86a3-cad20f797b98) |
 
-| Trang thống kê 3                                | Trang thống kê 1                                  | Trang thống kê 2                                 |
+| Trang thống kê 3                                | Trang tin tức                               | Trang tin tức 1                                 |
 |---------------------------------------|----------------------------------------|----------------------------------------|
-| ![image](https://github.com/user-attachments/assets/5e8b5ab0-54da-440c-88c3-59c89e3ad687)| ![Ảnh 5](https://github.com/user-attachments/assets/9da845c7-ab5f-4029-8097-02499f57e355) | ![Ảnh 6](https://github.com/user-attachments/assets/47285073-d0eb-4149-86a3-cad20f797b98) |
+| ![image](https://github.com/user-attachments/assets/5e8b5ab0-54da-440c-88c3-59c89e3ad687)| ![image](https://github.com/user-attachments/assets/97bcbcb9-cb6c-40d3-a4d7-0858a83b4001)| ![image](https://github.com/user-attachments/assets/7d0a9cd9-592b-401e-8465-96ed954ef42b)|
+| Trang đăng nhập                                | Trang đăng ký                               | Trang cài đặt                                |
+|---------------------------------------|----------------------------------------|----------------------------------------|
+| ![image](https://github.com/user-attachments/assets/d734b39a-926d-40a9-92a7-376fd347ef8d)|![image](https://github.com/user-attachments/assets/cdde5118-1525-4110-a9c9-2d0315486707)| ![image](https://github.com/user-attachments/assets/0a1df3a9-051e-4363-b7a2-1980184a71c9)|
+| Trang giới thiệu                      | Trang dịch vụ điều khoản               |
+|---------------------------------------|----------------------------------------|
+| ![image](https://github.com/user-attachments/assets/c7072fcc-74e8-491c-ba96-53277ce61123)|![image](https://github.com/user-attachments/assets/10ef1216-ab8e-48f3-a91d-08b8b0e44e95)|
 
 ## Thành viên nhóm: 
 Nguyễn Trần Việt Anh: 22010341
