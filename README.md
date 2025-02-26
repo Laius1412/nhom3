@@ -6,7 +6,7 @@
 
 | Trang chủ                                 | Trang profile                                  | Trang BXH                                  |
 |---------------------------------------|----------------------------------------|----------------------------------------|
-| ![Ảnh 1](https://github.com/user-attachments/assets/f35a6e69-e0be-4deb-8f92-549b9a20bbdc) | ![Ảnh 2](https://github.com/user-attachments/assets/48d88dc9-8edc-4cac-b8f2-5fd697ce829d) | ![Ảnh 3](https://github.com/user-attachments/assets/9281bc73-9d1a-468f-98c5-e909ee271827) |
+| ![Ảnh 1](https://github.com/user-attachments/assets/f35a6e69-e0be-4deb-8f92-549b9a20bbdc) | ![image](https://github.com/user-attachments/assets/7f6b159e-88a4-472c-995a-1574e67c8ed6)| ![Ảnh 3](https://github.com/user-attachments/assets/9281bc73-9d1a-468f-98c5-e909ee271827) |
 
 | Trang lịch thi đấu                                | Trang thống kê 1                                  | Trang thống kê 2                                 |
 |---------------------------------------|----------------------------------------|----------------------------------------|
