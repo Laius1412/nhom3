@@ -12,9 +12,9 @@
 |---------------------------------------|----------------------------------------|----------------------------------------|
 | ![Ảnh 4](https://github.com/user-attachments/assets/82f696ff-e114-49f4-a5be-ed2795ca8937) | ![Ảnh 5](https://github.com/user-attachments/assets/9da845c7-ab5f-4029-8097-02499f57e355) | ![Ảnh 6](https://github.com/user-attachments/assets/47285073-d0eb-4149-86a3-cad20f797b98) |
 
-| Trang lịch thi đấu                                | Trang thống kê 1                                  | Trang thống kê 2                                 |
+| Trang thống kê 3                                | Trang thống kê 1                                  | Trang thống kê 2                                 |
 |---------------------------------------|----------------------------------------|----------------------------------------|
-| ![Ảnh 4](https://github.com/user-attachments/assets/82f696ff-e114-49f4-a5be-ed2795ca8937) | ![Ảnh 5](https://github.com/user-attachments/assets/9da845c7-ab5f-4029-8097-02499f57e355) | ![Ảnh 6](https://github.com/user-attachments/assets/47285073-d0eb-4149-86a3-cad20f797b98) |
+| ![image](https://github.com/user-attachments/assets/5e8b5ab0-54da-440c-88c3-59c89e3ad687)| ![Ảnh 5](https://github.com/user-attachments/assets/9da845c7-ab5f-4029-8097-02499f57e355) | ![Ảnh 6](https://github.com/user-attachments/assets/47285073-d0eb-4149-86a3-cad20f797b98) |
 
 ## Thành viên nhóm: 
 Nguyễn Trần Việt Anh: 22010341
