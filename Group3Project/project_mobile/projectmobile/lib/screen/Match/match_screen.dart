@@ -86,7 +86,7 @@ class _MatchScreenState extends State<MatchScreen> {
         backgroundColor: Colors.black,
         actions: [
           IconButton(
-            icon: Icon(Icons.calendar_today, color: Colors.green[800]),
+            icon: Icon(Icons.calendar_month, color: Colors.green[800]),
             onPressed: () => _selectDate(context),
           ),
         ],
@@ -157,59 +157,123 @@ class _MatchScreenState extends State<MatchScreen> {
                             ),
                             ...matches.map((match) {
                               bool isCompleted = match.status == 'FT';
-                              return Card(
-                                color: Color(0xFF1E1E1E),
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      color: Colors.green[800]!, width: 1),
-                                ),
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 8),
-                                elevation: 10,
-                                shadowColor:
-                                    Colors.green[800]!.withOpacity(0.5),
-                                child: ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => InforMatchScreen(
-                                            fixtureId: match.fixtureId),
-                                      ),
-                                    );
-                                  },
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 16),
-                                  leading: Image.network(match.homeTeamLogo,
-                                      width: 30),
-                                  title: Center(
-                                    child: FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(
-                                        isCompleted
-                                            ? '${match.homeTeam} ${match.result.split('-')[0]} - ${match.result.split('-')[1]} ${match.awayTeam}'
-                                            : '${match.homeTeam} vs ${match.awayTeam}',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => InforMatchScreen(
+                                          fixtureId: match.fixtureId),
                                     ),
+                                  );
+                                },
+                                child: Card(
+                                  color: Color(0xFF1E1E1E),
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: Colors.green[800]!, width: 1),
                                   ),
-                                  subtitle: Center(
-                                    child: Column(
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 8),
+                                  elevation: 10,
+                                  shadowColor:
+                                      Colors.green[800]!.withOpacity(0.5),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12, horizontal: 8),
+                                    child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        Text('Trạng thái: ${match.status}',
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                        Text(
-                                          'Thời gian: ${match.date.toLocal().hour}:${match.date.toLocal().minute.toString().padLeft(2, '0')}',
-                                          style: TextStyle(color: Colors.white),
+                                        // Cột 1: Thời gian & trạng thái
+                                        SizedBox(
+                                          width: 50,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                '${match.date.toLocal().hour}:${match.date.toLocal().minute.toString().padLeft(2, '0')}',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                              SizedBox(height: 8),
+                                              Text(
+                                                match.status,
+                                                style: TextStyle(
+                                                    color: Colors.green),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+
+                                        // Cột 2: Logo đội bóng
+                                        SizedBox(
+                                          width: 40,
+                                          child: Column(
+                                            children: [
+                                              Image.network(match.homeTeamLogo,
+                                                  width: 30, height: 30),
+                                              SizedBox(height: 8),
+                                              Image.network(match.awayTeamLogo,
+                                                  width: 30, height: 30),
+                                            ],
+                                          ),
+                                        ),
+
+                                        // Cột 3: Tên đội bóng (chiều rộng lớn hơn)
+                                        SizedBox(
+                                          width: 200,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(match.homeTeam,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 17)),
+                                              SizedBox(height: 8),
+                                              Text(match.awayTeam,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 17)),
+                                            ],
+                                          ),
+                                        ),
+
+                                        // Cột 4: Tỉ số hoặc chuông thông báo
+                                        SizedBox(
+                                          width: 40,
+                                          child: Column(
+                                            children: [
+                                              isCompleted
+                                                  ? Text(
+                                                      match.result
+                                                          .split('-')[0],
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                      textAlign: TextAlign.end,
+                                                    )
+                                                  : Icon(
+                                                      Icons.notifications_none,
+                                                      color: Colors.grey,
+                                                      size: 24),
+                                              SizedBox(height: 8),
+                                              isCompleted
+                                                  ? Text(
+                                                      match.result
+                                                          .split('-')[1],
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                      textAlign: TextAlign.end,
+                                                    )
+                                                  : Container(), // Không hiển thị icon thứ 2
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                  trailing: Image.network(match.awayTeamLogo,
-                                      width: 30),
                                 ),
                               );
                             }).toList(),
