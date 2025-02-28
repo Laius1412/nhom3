@@ -201,7 +201,9 @@ class _MatchScreenState extends State<MatchScreen> {
                                               Text(
                                                 match.status,
                                                 style: TextStyle(
-                                                    color: Colors.green),
+                                                    color: isCompleted
+                                                        ? Colors.green
+                                                        : Colors.red),
                                               ),
                                             ],
                                           ),

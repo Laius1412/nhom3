@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projectmobile/screen/Match/comment_tab.dart';
 import 'event_tab.dart';
 import 'lineup_tab.dart';
 import 'stats_tab.dart';
@@ -12,7 +13,7 @@ class InforMatchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Color(0xFF1E1E1E),
@@ -32,6 +33,9 @@ class InforMatchScreen extends StatelessWidget {
                 Tab(
                   text: "Thống kê",
                 ),
+                Tab(
+                  text: "Bình luận",
+                ),
               ],
               labelColor: Colors.green[800],
               indicatorColor: Colors.green[800],
@@ -47,6 +51,7 @@ class InforMatchScreen extends StatelessWidget {
               StatsTab(
                 fixtureId: fixtureId,
               ),
+              CommentTab(),
             ],
           ),
         ),

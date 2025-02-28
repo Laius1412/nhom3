@@ -110,8 +110,9 @@ class LineupTab extends StatelessWidget {
             mainAxisAlignment: rowPlayers.length == 5
                 ? MainAxisAlignment.spaceBetween
                 : MainAxisAlignment.spaceEvenly,
-            children:
-                rowPlayers.map((player) => buildPlayerCircle(player)).toList(),
+            children: rowPlayers.reversed
+                .map((player) => buildPlayerCircle(player))
+                .toList(),
           );
         }).toList(),
       ),
