@@ -5,6 +5,7 @@ import 'package:projectmobile/Model/match_model/fixtures_model.dart';
 import 'package:projectmobile/services/notification_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:projectmobile/screen/Athu/login_screen.dart';
 
 // class MatchScreen extends StatelessWidget {
 //   @override
@@ -210,8 +211,12 @@ class _MatchScreenState extends State<MatchScreen> {
             IconButton(
               icon: Icon(Icons.login, color: Colors.green[800]),
               onPressed: () {
-                // Điều hướng đến trang đăng nhập
-                // Navigator.pushNamed(context, '/login');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                );
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
@@ -219,8 +224,12 @@ class _MatchScreenState extends State<MatchScreen> {
                     action: SnackBarAction(
                       label: 'Đăng nhập',
                       onPressed: () {
-                        // Điều hướng đến trang đăng nhập
-                        // Navigator.pushNamed(context, '/login');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginScreen(),
+                          ),
+                        );
                       },
                     ),
                   ),

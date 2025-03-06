@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:projectmobile/screen/Athu/login_screen.dart';
 import 'dart:async';
 
 import 'package:timezone/timezone.dart' as tz;
@@ -247,8 +248,12 @@ class NotificationService {
             action: SnackBarAction(
               label: 'Đăng nhập',
               onPressed: () {
-                // Điều hướng đến trang đăng nhập (cần thêm logic điều hướng)
-                // Navigator.pushNamed(context, '/login');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                );
               },
             ),
           ),
