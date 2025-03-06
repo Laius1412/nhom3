@@ -102,7 +102,7 @@ class EventItem extends StatelessWidget {
     if (type == 'Goal') {
       return Icons.sports_soccer;
     } else if (type == 'Card') {
-      return detail == 'Yellow Card' ? Icons.square : Icons.square_outlined;
+      return detail == 'Yellow Card' ? Icons.square : Icons.square;
     } else if (type == 'subst') {
       return Icons.swap_horiz;
     } else {
@@ -154,15 +154,15 @@ class EventItem extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '${event.player}', // Rời sân
+                        '${event.assist} - ', // Rời sân
                         style: const TextStyle(color: Colors.red, fontSize: 10),
                       ),
-                      const SizedBox(width: 4),
                       Text(
-                        '${event.assist}', // Vào sân
+                        '${event.player}', // Vào sân
                         style:
                             const TextStyle(color: Colors.green, fontSize: 10),
                       ),
+                      const SizedBox(width: 4),
                     ],
                   ),
               ],
