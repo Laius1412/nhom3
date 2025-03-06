@@ -1,14 +1,17 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter/material.dart';
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final FlutterLocalNotificationsPlugin _localNotifications =
       FlutterLocalNotificationsPlugin();
 
@@ -17,6 +20,12 @@ class NotificationService {
   }
 
   NotificationService._internal();
+
+  // Kiểm tra xem người dùng đã đăng nhập hay chưa
+  bool get isUserLoggedIn => _auth.currentUser != null;
+
+  // Lấy ID của người dùng hiện tại
+  String? get currentUserId => _auth.currentUser?.uid;
 
   Future<void> initialize() async {
     try {
@@ -72,17 +81,19 @@ class NotificationService {
         sound: true,
       );
 
-      // Get FCM token and save to Firestore
+      // Get FCM token and save to Firestore if user is logged in
       String? token = await _fcm.getToken();
-      if (token != null) {
+      if (token != null && isUserLoggedIn) {
         await _saveFCMToken(token);
         print('FCM Token: $token');
       }
 
       // Listen for token refresh
       _fcm.onTokenRefresh.listen((token) {
-        _saveFCMToken(token);
-        print('FCM Token refreshed: $token');
+        if (isUserLoggedIn) {
+          _saveFCMToken(token);
+          print('FCM Token refreshed: $token');
+        }
       });
 
       // Handle background messages
@@ -103,8 +114,20 @@ class NotificationService {
   }
 
   Future<void> _saveFCMToken(String token) async {
+    if (!isUserLoggedIn) return;
+
+    final userId = currentUserId!;
+
+    // Lưu token vào collection users
+    await FirebaseFirestore.instance.collection('users').doc(userId).update({
+      'fcmTokens': FieldValue.arrayUnion([token]),
+      'lastTokenUpdate': FieldValue.serverTimestamp(),
+    });
+
+    // Lưu thông tin token với userId
     await FirebaseFirestore.instance.collection('fcm_tokens').doc(token).set({
       'token': token,
+      'userId': userId,
       'createdAt': FieldValue.serverTimestamp(),
     });
   }
@@ -112,6 +135,10 @@ class NotificationService {
   Future<void> scheduleMatchNotification(String fixtureId, DateTime matchTime,
       String homeTeam, String awayTeam) async {
     try {
+      if (!isUserLoggedIn) return;
+
+      final userId = currentUserId!;
+
       // Tính thời điểm 30 phút trước trận đấu
       final scheduledTime = matchTime.subtract(Duration(minutes: 30));
       final now = DateTime.now();
@@ -120,11 +147,16 @@ class NotificationService {
       if (scheduledTime.isAfter(now)) {
         final scheduledDate = tz.TZDateTime.from(scheduledTime, tz.local);
 
+        // Tạo ID thông báo duy nhất cho mỗi người dùng và trận đấu
+        final notificationId = int.parse(fixtureId) % 100000;
+
         // Hủy thông báo cũ nếu có
-        await _localNotifications.cancel(int.parse(fixtureId));
+        await _localNotifications.cancel(notificationId);
 
         // Lưu thông tin thông báo vào Firestore
         await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
             .collection('scheduled_notifications')
             .doc(fixtureId)
             .set({
@@ -134,11 +166,12 @@ class NotificationService {
           'homeTeam': homeTeam,
           'awayTeam': awayTeam,
           'status': 'scheduled',
+          'userId': userId,
         });
 
         // Lên lịch thông báo 30 phút
         await _localNotifications.zonedSchedule(
-          int.parse(fixtureId),
+          notificationId,
           'Trận đấu sắp diễn ra!',
           'Trận đấu giữa $homeTeam và $awayTeam sẽ bắt đầu sau 30 phút nữa',
           scheduledDate,
@@ -177,11 +210,59 @@ class NotificationService {
     }
   }
 
-  Future<void> subscribeToMatch(String fixtureId, DateTime matchTime,
-      {required String homeTeam, required String awayTeam}) async {
+  // Kiểm tra xem người dùng đã đăng ký thông báo cho trận đấu chưa
+  Future<bool> isMatchSubscribed(String fixtureId) async {
+    if (!isUserLoggedIn) return false;
+
+    final userId = currentUserId!;
+
     try {
-      // Subscribe to FCM topic
-      await _fcm.subscribeToTopic('match_$fixtureId');
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('match_subscriptions')
+          .doc(fixtureId)
+          .get();
+
+      return doc.exists && doc.data()?['status'] == 'active';
+    } catch (e) {
+      print('Error checking match subscription: $e');
+      return false;
+    }
+  }
+
+  Future<Map<String, dynamic>> subscribeToMatch(
+      String fixtureId, DateTime matchTime,
+      {required String homeTeam,
+      required String awayTeam,
+      required BuildContext context}) async {
+    try {
+      // Kiểm tra đăng nhập
+      if (!isUserLoggedIn) {
+        // Hiển thị thông báo yêu cầu đăng nhập
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Bạn cần đăng nhập để đăng ký thông báo trận đấu'),
+            duration: Duration(seconds: 3),
+            action: SnackBarAction(
+              label: 'Đăng nhập',
+              onPressed: () {
+                // Điều hướng đến trang đăng nhập (cần thêm logic điều hướng)
+                // Navigator.pushNamed(context, '/login');
+              },
+            ),
+          ),
+        );
+        return {
+          'success': false,
+          'message': 'Bạn cần đăng nhập để đăng ký thông báo'
+        };
+      }
+
+      final userId = currentUserId!;
+
+      // Subscribe to FCM topic với userId
+      await _fcm.subscribeToTopic('match_${fixtureId}_$userId');
 
       final now = DateTime.now();
       final difference = matchTime.difference(now);
@@ -208,12 +289,14 @@ class NotificationService {
         timeMessage = 'vài phút';
       }
 
-      // Lưu thông tin vào Firestore
-      final matchRef = FirebaseFirestore.instance
+      // Lưu thông tin vào Firestore trong collection của user
+      final userMatchRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
           .collection('match_subscriptions')
           .doc(fixtureId);
 
-      await matchRef.set({
+      await userMatchRef.set({
         'fixtureId': fixtureId,
         'matchTime': Timestamp.fromDate(matchTime),
         'registrationTime': Timestamp.fromDate(now),
@@ -225,6 +308,21 @@ class NotificationService {
           'minutes': minutes,
           'totalMinutes': difference.inMinutes
         },
+        'status': 'active',
+        'userId': userId,
+      });
+
+      // Lưu thông tin vào collection chung để quản lý
+      await FirebaseFirestore.instance
+          .collection('match_subscriptions')
+          .doc('${fixtureId}_$userId')
+          .set({
+        'fixtureId': fixtureId,
+        'userId': userId,
+        'matchTime': Timestamp.fromDate(matchTime),
+        'registrationTime': Timestamp.fromDate(now),
+        'homeTeam': homeTeam,
+        'awayTeam': awayTeam,
         'status': 'active',
       });
 
@@ -242,28 +340,66 @@ class NotificationService {
 
       print('Successfully subscribed to match: $homeTeam vs $awayTeam');
       print('Time until match: $timeMessage');
+
+      return {'success': true, 'message': 'Đã đăng ký thông báo thành công'};
     } catch (e) {
       print('Error in subscribeToMatch: $e');
       print('Stack trace: ${e.toString()}');
+      return {
+        'success': false,
+        'message': 'Đã xảy ra lỗi khi đăng ký thông báo'
+      };
     }
   }
 
-  Future<void> unsubscribeFromMatch(String fixtureId) async {
+  Future<Map<String, dynamic>> unsubscribeFromMatch(String fixtureId) async {
     try {
-      await _fcm.unsubscribeFromTopic('match_$fixtureId');
+      if (!isUserLoggedIn) {
+        return {
+          'success': false,
+          'message': 'Bạn cần đăng nhập để hủy đăng ký thông báo'
+        };
+      }
+
+      final userId = currentUserId!;
+
+      // Hủy đăng ký topic FCM
+      await _fcm.unsubscribeFromTopic('match_${fixtureId}_$userId');
+
       // Hủy thông báo đã lên lịch
-      await _localNotifications.cancel(int.parse(fixtureId));
+      final notificationId = int.parse(fixtureId) % 100000;
+      await _localNotifications.cancel(notificationId);
 
       // Cập nhật trạng thái trong Firestore
       await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
           .collection('scheduled_notifications')
           .doc(fixtureId)
           .update({
         'status': 'cancelled',
         'cancelledAt': FieldValue.serverTimestamp(),
       });
+
+      // Cập nhật trạng thái trong collection chung
+      await FirebaseFirestore.instance
+          .collection('match_subscriptions')
+          .doc('${fixtureId}_$userId')
+          .update({
+        'status': 'cancelled',
+        'cancelledAt': FieldValue.serverTimestamp(),
+      });
+
+      return {
+        'success': true,
+        'message': 'Đã hủy đăng ký thông báo thành công'
+      };
     } catch (e) {
       print('Error unsubscribing from match: $e');
+      return {
+        'success': false,
+        'message': 'Đã xảy ra lỗi khi hủy đăng ký thông báo'
+      };
     }
   }
 

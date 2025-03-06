@@ -4,6 +4,7 @@ import 'package:projectmobile/screen/Match/infor_match_screen.dart';
 import 'package:projectmobile/Model/match_model/fixtures_model.dart';
 import 'package:projectmobile/services/notification_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // class MatchScreen extends StatelessWidget {
 //   @override
@@ -32,6 +33,7 @@ class _MatchScreenState extends State<MatchScreen> {
   DateTime selectedDate = DateTime.now();
   final Map<String, bool> _subscribedMatches = {};
   final NotificationService _notificationService = NotificationService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -40,34 +42,70 @@ class _MatchScreenState extends State<MatchScreen> {
     _loadSubscribedMatches();
   }
 
+  // Kiểm tra xem người dùng đã đăng nhập hay chưa
+  bool get isUserLoggedIn => _auth.currentUser != null;
+
+  // Lấy ID của người dùng hiện tại
+  String? get currentUserId => _auth.currentUser?.uid;
+
   Future<void> _loadSubscribedMatches() async {
-    final snapshot = await FirebaseFirestore.instance
-        .collection('match_subscriptions')
-        .get();
-    setState(() {
-      for (var doc in snapshot.docs) {
-        _subscribedMatches[doc.id] = true;
-      }
-    });
+    // Chỉ tải các đăng ký thông báo nếu người dùng đã đăng nhập
+    if (!isUserLoggedIn) {
+      setState(() {
+        _subscribedMatches.clear();
+      });
+      return;
+    }
+
+    final userId = currentUserId!;
+
+    try {
+      // Tải các đăng ký thông báo từ collection của người dùng
+      final snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('match_subscriptions')
+          .where('status', isEqualTo: 'active')
+          .get();
+
+      setState(() {
+        _subscribedMatches.clear();
+        for (var doc in snapshot.docs) {
+          final fixtureId = doc.data()['fixtureId'] as String;
+          _subscribedMatches[fixtureId] = true;
+        }
+      });
+    } catch (e) {
+      print('Error loading subscribed matches: $e');
+    }
   }
 
   Future<void> _toggleMatchNotification(String fixtureId, DateTime matchTime,
       String homeTeam, String awayTeam) async {
-    final isCurrentlySubscribed = _subscribedMatches[fixtureId] ?? false;
+    // Kiểm tra đăng ký hiện tại
+    final isCurrentlySubscribed =
+        await _notificationService.isMatchSubscribed(fixtureId);
 
     if (isCurrentlySubscribed) {
-      // Unsubscribe
-      await _notificationService.unsubscribeFromMatch(fixtureId);
-      await FirebaseFirestore.instance
-          .collection('match_subscriptions')
-          .doc(fixtureId)
-          .delete();
-      setState(() {
-        _subscribedMatches[fixtureId] = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Đã hủy đăng ký thông báo cho trận đấu này')),
-      );
+      // Hủy đăng ký
+      final result = await _notificationService.unsubscribeFromMatch(fixtureId);
+
+      if (result['success']) {
+        setState(() {
+          _subscribedMatches[fixtureId] = false;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(result['message'])),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result['message']),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     } else {
       try {
         print('Subscribing to match notifications:');
@@ -76,17 +114,31 @@ class _MatchScreenState extends State<MatchScreen> {
         print('Home Team: $homeTeam');
         print('Away Team: $awayTeam');
 
-        // Subscribe and show notification
-        await _notificationService.subscribeToMatch(
+        // Đăng ký và hiển thị thông báo
+        final result = await _notificationService.subscribeToMatch(
           fixtureId,
           matchTime,
           homeTeam: homeTeam,
           awayTeam: awayTeam,
+          context: context, // Thêm tham số context
         );
 
-        setState(() {
-          _subscribedMatches[fixtureId] = true;
-        });
+        if (result['success']) {
+          setState(() {
+            _subscribedMatches[fixtureId] = true;
+          });
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(result['message'])),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(result['message']),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       } catch (e) {
         print('Error toggling match notification: $e');
         ScaffoldMessenger.of(context).showSnackBar(
@@ -153,6 +205,28 @@ class _MatchScreenState extends State<MatchScreen> {
             icon: Icon(Icons.calendar_month, color: Colors.green[800]),
             onPressed: () => _selectDate(context),
           ),
+          // Thêm nút đăng nhập/đăng xuất nếu cần
+          if (!isUserLoggedIn)
+            IconButton(
+              icon: Icon(Icons.login, color: Colors.green[800]),
+              onPressed: () {
+                // Điều hướng đến trang đăng nhập
+                // Navigator.pushNamed(context, '/login');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                        'Vui lòng đăng nhập để đăng ký thông báo trận đấu'),
+                    action: SnackBarAction(
+                      label: 'Đăng nhập',
+                      onPressed: () {
+                        // Điều hướng đến trang đăng nhập
+                        // Navigator.pushNamed(context, '/login');
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
         ],
       ),
       body: Container(
