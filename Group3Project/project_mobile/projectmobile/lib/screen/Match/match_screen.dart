@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:projectmobile/api/fixtures_api.dart';
 import 'package:projectmobile/screen/Match/infor_match_screen.dart';
 import 'package:projectmobile/Model/match_model/fixtures_model.dart';
+import 'package:projectmobile/services/notification_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // class MatchScreen extends StatelessWidget {
 //   @override
@@ -28,11 +30,73 @@ class MatchScreen extends StatefulWidget {
 class _MatchScreenState extends State<MatchScreen> {
   late Future<Map<int, List<Match>>> futureMatches;
   DateTime selectedDate = DateTime.now();
+  final Map<String, bool> _subscribedMatches = {};
+  final NotificationService _notificationService = NotificationService();
 
   @override
   void initState() {
     super.initState();
     futureMatches = fetchMatchesByDate(selectedDate);
+    _loadSubscribedMatches();
+  }
+
+  Future<void> _loadSubscribedMatches() async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('match_subscriptions')
+        .get();
+    setState(() {
+      for (var doc in snapshot.docs) {
+        _subscribedMatches[doc.id] = true;
+      }
+    });
+  }
+
+  Future<void> _toggleMatchNotification(String fixtureId, DateTime matchTime,
+      String homeTeam, String awayTeam) async {
+    final isCurrentlySubscribed = _subscribedMatches[fixtureId] ?? false;
+
+    if (isCurrentlySubscribed) {
+      // Unsubscribe
+      await _notificationService.unsubscribeFromMatch(fixtureId);
+      await FirebaseFirestore.instance
+          .collection('match_subscriptions')
+          .doc(fixtureId)
+          .delete();
+      setState(() {
+        _subscribedMatches[fixtureId] = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Đã hủy đăng ký thông báo cho trận đấu này')),
+      );
+    } else {
+      try {
+        print('Subscribing to match notifications:');
+        print('Match ID: $fixtureId');
+        print('Match Time: $matchTime');
+        print('Home Team: $homeTeam');
+        print('Away Team: $awayTeam');
+
+        // Subscribe and show notification
+        await _notificationService.subscribeToMatch(
+          fixtureId,
+          matchTime,
+          homeTeam: homeTeam,
+          awayTeam: awayTeam,
+        );
+
+        setState(() {
+          _subscribedMatches[fixtureId] = true;
+        });
+      } catch (e) {
+        print('Error toggling match notification: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Không thể đăng ký thông báo. Vui lòng thử lại sau.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   void _selectDate(BuildContext context) async {
@@ -256,10 +320,26 @@ class _MatchScreenState extends State<MatchScreen> {
                                                           color: Colors.white),
                                                       textAlign: TextAlign.end,
                                                     )
-                                                  : Icon(
-                                                      Icons.notifications_none,
-                                                      color: Colors.grey,
-                                                      size: 24),
+                                                  : IconButton(
+                                                      icon: Icon(
+                                                        Icons.notifications,
+                                                        color: _subscribedMatches[match
+                                                                    .fixtureId
+                                                                    .toString()] ==
+                                                                true
+                                                            ? Colors.yellow
+                                                            : Colors.grey,
+                                                        size: 24,
+                                                      ),
+                                                      onPressed: () =>
+                                                          _toggleMatchNotification(
+                                                        match.fixtureId
+                                                            .toString(),
+                                                        match.date,
+                                                        match.homeTeam,
+                                                        match.awayTeam,
+                                                      ),
+                                                    ),
                                               SizedBox(height: 8),
                                               isCompleted
                                                   ? Text(
