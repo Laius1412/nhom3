@@ -379,7 +379,7 @@ class NotificationService {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userId)
-          .collection('scheduled_notifications')
+          .collection('match_subscriptions')
           .doc(fixtureId)
           .update({
         'status': 'cancelled',
