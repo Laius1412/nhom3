@@ -1,0 +1,2 @@
+E:/GitHub/nhom3/nhom3/Group3Project/project_mobile/projectmobile/android/app/.cxx/Debug/434gb3e4/x86_64/CMakeFiles/edit_cache.dir
+E:/GitHub/nhom3/nhom3/Group3Project/project_mobile/projectmobile/android/app/.cxx/Debug/434gb3e4/x86_64/CMakeFiles/rebuild_cache.dir
