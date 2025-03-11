@@ -125,12 +125,12 @@ class _MatchDetailScreenState extends State<MatchDetailScreen> {
                           ],
                         ),
                         Container(
-                          height: 300,
+                          height: 400,
                           child: TabBarView(
                             children: [
                               MatchEventsTab(match: match),
                               MatchLineupTab(fixtureId: match.fixtureId),
-                              MatchStatsTab(match: match),
+                              MatchStatsTab(fixtureId: match.fixtureId),
                             ],
                           ),
                         ),
