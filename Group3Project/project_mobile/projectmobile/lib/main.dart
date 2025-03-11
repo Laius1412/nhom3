@@ -6,6 +6,7 @@ import 'screen/Match/match_screen.dart';
 import 'screen/news_screen.dart';
 import 'screen/profile_screen.dart';
 import 'screen/stats_screen.dart';
+import 'services/notification_service.dart';
 
 // import 'test.dart';
 void main() async {
@@ -13,6 +14,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Initialize notifications
+  await NotificationService().initialize();
+
   // addTestUser();
   runApp(const MyApp());
 }

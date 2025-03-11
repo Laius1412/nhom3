@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:async';
 import 'home/article_screen.dart'; // Import trang chi tiết bài viết
+import 'widgets/live_matches_slider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -116,6 +117,8 @@ final List<Map<String, String>> newsList = [
           _buildVideoHighlights(),
           _buildSectionTitle('Latest News', Icons.article),
           _buildNewsList(),
+           _buildSectionTitle('Live Score', Icons.sports), // Tiêu đề Live Score
+          LiveMatchesSlider(), // Hiển thị danh sách trận đấu đang diễn ra
         ],
       ),
       backgroundColor: Colors.black,
