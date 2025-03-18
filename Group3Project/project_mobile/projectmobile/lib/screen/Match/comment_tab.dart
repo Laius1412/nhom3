@@ -1,6 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart'; // Import thư viện format thời gian
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projectmobile/services/comment_service.dart';
 
@@ -13,24 +15,15 @@ class _CommentTabState extends State<CommentTab> {
   final TextEditingController _commentController = TextEditingController();
   final CommentService _commentService = CommentService();
   String _currentUserAvatar = '';
-  String _currentUserId = FirebaseAuth.instance.currentUser?.uid ?? '';
-
-  void _postComment() async {
-    await _commentService.addComment(_commentController.text);
-    _commentController.clear();
-  }
-
-  void _deleteComment(String commentId) async {
-    await _commentService.deleteComment(commentId);
-  }
+  String _currentUserId = '';
 
   @override
   void initState() {
     super.initState();
-    _fetchCurrentUserAvatar();
+    _fetchCurrentUserDetails();
   }
 
-  void _fetchCurrentUserAvatar() async {
+  void _fetchCurrentUserDetails() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
 
@@ -42,8 +35,18 @@ class _CommentTabState extends State<CommentTab> {
     if (userDoc.exists) {
       setState(() {
         _currentUserAvatar = userDoc.data()?['avatar'] ?? '';
+        _currentUserId = user.uid;
       });
     }
+  }
+
+  void _postComment() async {
+    await _commentService.addComment(_commentController.text);
+    _commentController.clear();
+  }
+
+  void _deleteComment(String commentId) async {
+    await _commentService.deleteComment(commentId);
   }
 
   String _formatTimestamp(Timestamp? timestamp) {
@@ -58,6 +61,7 @@ class _CommentTabState extends State<CommentTab> {
       color: Colors.black,
       child: Column(
         children: [
+          // Phần hiển thị danh sách bình luận
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: _commentService.getCommentsStream(),
@@ -73,7 +77,7 @@ class _CommentTabState extends State<CommentTab> {
                     var comment =
                         comments[index].data() as Map<String, dynamic>;
                     String commentId = comments[index].id;
-                    bool isCurrentUser = comment['userId'] == _currentUserId;
+                    String userId = comment['userId'];
 
                     return ListTile(
                       leading: CircleAvatar(
@@ -104,18 +108,39 @@ class _CommentTabState extends State<CommentTab> {
                         comment['commentText'],
                         style: TextStyle(color: Colors.white70),
                       ),
-                      trailing: isCurrentUser
-                          ? IconButton(
-                              icon: Icon(Icons.delete, color: Colors.red),
-                              onPressed: () => _deleteComment(commentId),
-                            )
-                          : null,
+                      trailing: PopupMenuButton<String>(
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: Colors.white,
+                        ),
+                        onSelected: (value) {
+                          if (value == 'delete') {
+                            _deleteComment(commentId);
+                          }
+                        },
+                        itemBuilder: (BuildContext context) {
+                          return userId == _currentUserId
+                              ? [
+                                  PopupMenuItem(
+                                    value: 'delete',
+                                    height: 20,
+                                    child: Text(
+                                      'Xóa bình luận',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ),
+                                ]
+                              : [];
+                        },
+                      ),
                     );
                   },
                 );
               },
             ),
           ),
+
+          // Phần nhập bình luận
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
