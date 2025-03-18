@@ -1,8 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart'; // Import thư viện format thời gian
+import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projectmobile/services/comment_service.dart';
 
@@ -61,7 +59,6 @@ class _CommentTabState extends State<CommentTab> {
       color: Colors.black,
       child: Column(
         children: [
-          // Phần hiển thị danh sách bình luận
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: _commentService.getCommentsStream(),
@@ -78,6 +75,11 @@ class _CommentTabState extends State<CommentTab> {
                         comments[index].data() as Map<String, dynamic>;
                     String commentId = comments[index].id;
                     String userId = comment['userId'];
+
+                    bool isLiked =
+                        comment['likes']?.contains(_currentUserId) ?? false;
+                    bool isDisliked =
+                        comment['dislikes']?.contains(_currentUserId) ?? false;
 
                     return ListTile(
                       leading: CircleAvatar(
@@ -104,9 +106,46 @@ class _CommentTabState extends State<CommentTab> {
                           ),
                         ],
                       ),
-                      subtitle: Text(
-                        comment['commentText'],
-                        style: TextStyle(color: Colors.white70),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            comment['commentText'],
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  Icons.thumb_up,
+                                  color: isLiked ? Colors.blue : Colors.white,
+                                ),
+                                onPressed: () {
+                                  _commentService.toggleLikeDislike(
+                                      commentId, _currentUserId, true, false);
+                                },
+                              ),
+                              Text(
+                                "${comment['likes']?.length ?? 0}",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.thumb_down,
+                                  color: isDisliked ? Colors.red : Colors.white,
+                                ),
+                                onPressed: () {
+                                  _commentService.toggleLikeDislike(
+                                      commentId, _currentUserId, false, true);
+                                },
+                              ),
+                              Text(
+                                "${comment['dislikes']?.length ?? 0}",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                       trailing: PopupMenuButton<String>(
                         icon: Icon(
@@ -139,8 +178,6 @@ class _CommentTabState extends State<CommentTab> {
               },
             ),
           ),
-
-          // Phần nhập bình luận
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
