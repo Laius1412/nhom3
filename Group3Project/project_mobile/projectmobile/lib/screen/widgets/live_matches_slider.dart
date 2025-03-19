@@ -41,13 +41,23 @@ class _LiveMatchesSliderState extends State<LiveMatchesSlider> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return Center(child: Text("Lỗi tải dữ liệu", style: TextStyle(color: Colors.white)));
+                return Center(
+                  child: Text(
+                    "Lỗi tải dữ liệu",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                );
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(child: Text("Không có trận đấu nào", style: TextStyle(color: Colors.white)));
+                return Center(
+                  child: Text(
+                    "Không có trận đấu nào",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                );
               }
 
               return ListView.builder(
-                scrollDirection: Axis.horizontal,
+                scrollDirection: Axis.horizontal, // tạo danh sách ngang
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final match = snapshot.data![index];
@@ -71,6 +81,7 @@ class _LiveMatchesSliderState extends State<LiveMatchesSlider> {
     );
   }
 
+  /// Hàm tạo card hiển thị trận đấu
   Widget _buildMatchCard(LiveScore match) {
     return Container(
       width: 280,
@@ -85,6 +96,7 @@ class _LiveMatchesSliderState extends State<LiveMatchesSlider> {
           Text(
             match.leagueName,
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
           ),
           SizedBox(height: 8),
           Row(
@@ -93,7 +105,11 @@ class _LiveMatchesSliderState extends State<LiveMatchesSlider> {
               _teamColumn(match.homeTeam, match.homeLogo),
               Text(
                 "${match.homeGoals} - ${match.awayGoals}",
-                style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               _teamColumn(match.awayTeam, match.awayLogo),
             ],
@@ -108,14 +124,27 @@ class _LiveMatchesSliderState extends State<LiveMatchesSlider> {
     );
   }
 
+  /// Hàm tạo hiển thị đội bóng (logo + tên)
   Widget _teamColumn(String teamName, String logoUrl) {
     return Column(
       children: [
-        Image.network(logoUrl, width: 40, height: 40),
+        Image.network(
+          logoUrl,
+          width: 40,
+          height: 40,
+          errorBuilder: (context, error, stackTrace) =>
+              Icon(Icons.sports_soccer, size: 40, color: Colors.grey),
+        ),
         SizedBox(height: 4),
-        Text(
-          teamName,
-          style: TextStyle(color: Colors.white, fontSize: 14),
+        SizedBox(
+          width: 90, // Giới hạn chiều rộng để tránh tràn
+          child: Text(
+            teamName,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: Colors.white, fontSize: 14),
+          ),
         ),
       ],
     );
