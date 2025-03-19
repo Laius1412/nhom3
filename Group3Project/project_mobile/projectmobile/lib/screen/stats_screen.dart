@@ -3,22 +3,6 @@ import 'package:projectmobile/Model/scoccerModel.dart';
 import 'package:projectmobile/api/standingApi.dart';
 import 'package:projectmobile/screen/Team/team_screen.dart';
 
-// class StandingsScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Home'),
-//       ),
-//       body: Container(
-//         // color: Color(0xFF0A0A23),
-//         child: Center(
-//           child: Text('This is the Home Screen'),
-//         ),
-//       ),
-//     );
-//   }
-// }
 class StandingsScreen extends StatefulWidget {
   const StandingsScreen({super.key});
 

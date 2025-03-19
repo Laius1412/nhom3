@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:projectmobile/screen/Athu/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -16,7 +15,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool isRegisterHovering = false;
-
   void _register() async {
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
@@ -34,10 +32,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Đăng ký thành công! Vui lòng đăng nhập.")),
       );
+      await _auth.signOut();
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),); // Quay lại màn hình đăng nhập
+      // Chuyển hướng đến LoginScreen
+      Navigator.pop(context); // Đóng RegisterScreen
     } on FirebaseAuthException catch (e) {
       String errorMessage = "Đăng ký thất bại";
       if (e.code == 'email-already-in-use') {
@@ -54,6 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

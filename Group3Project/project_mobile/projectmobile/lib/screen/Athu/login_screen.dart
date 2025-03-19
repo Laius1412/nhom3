@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:projectmobile/screen/profile_screen.dart';
 import 'package:projectmobile/screen/Athu/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -32,10 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (userDoc.exists) {
         final role = userDoc['role'] ?? 'user';
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => ProfileScreen(role: role)),
-        );
+        // Chuyển hướng trở lại ProfileScreen
+        Navigator.pop(context); // Đóng LoginScreen
       } else {
         _showSnackBar("Không tìm thấy thông tin người dùng");
       }
@@ -49,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
       _showSnackBar("Đăng nhập thất bại: $e");
     }
   }
-
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
