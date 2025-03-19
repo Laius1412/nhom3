@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:projectmobile/Model/scoccerModel.dart';
 import 'package:projectmobile/screen/Team/match_schedule_screen.dart';
 import 'package:projectmobile/screen/Team/player_stats_screen.dart';
 import 'package:projectmobile/screen/Team/team_info_screen.dart';
+import 'package:projectmobile/services/favorite_team_storage.dart';
 
 class TeamDetailsScreen extends StatefulWidget {
   final Standing team;
+  final String leagueId;
+  final String seasonYear;
 
-  const TeamDetailsScreen({Key? key, required this.team}) : super(key: key);
+  const TeamDetailsScreen({
+    Key? key,
+    required this.team,
+    required this.leagueId,
+    required this.seasonYear,
+  }) : super(key: key);
 
   @override
   _TeamDetailsScreenState createState() => _TeamDetailsScreenState();
@@ -22,6 +31,7 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _loadFavoriteStatus();
   }
 
   @override
@@ -30,11 +40,77 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen>
     super.dispose();
   }
 
+  /// 🔹 Load trạng thái yêu thích từ SharedPreferences
+  Future<void> _loadFavoriteStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isFavorite = prefs.getBool('favorite_${widget.team.team?.id}') ?? false;
+    });
+  }
+
+  /// 🔹 Thay đổi trạng thái yêu thích và lưu vào SharedPreferences
+  Future<void> _toggleFavorite() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool("isLoggedIn") ?? false; // Kiểm tra đăng nhập
+
+    if (!isLoggedIn) {
+      // Hiển thị thông báo yêu cầu đăng nhập
+      _showLoginDialog();
+      return; // Thoát khỏi hàm, không cho phép thêm vào yêu thích
+    }
+
+    setState(() {
+      isFavorite = !isFavorite;
+    });
+
+    await prefs.setBool('favorite_${widget.team.team?.id}', isFavorite);
+
+    Map<String, String> teamData = {
+      "id": widget.team.team?.id?.toString() ?? "0",
+      "name": widget.team.team?.name ?? "No Name",
+      "logo": widget.team.team?.logo ?? "",
+      "leagueId": widget.leagueId,
+      "seasonYear": widget.seasonYear,
+    };
+
+    if (isFavorite) {
+      await FavoriteTeamStorage.addFavoriteTeam(teamData);
+    } else {
+      await FavoriteTeamStorage.removeFavoriteTeam(teamData);
+    }
+  }
+
+  void _showLoginDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Yêu cầu đăng nhập"),
+          content: const Text("Bạn cần đăng nhập để thêm đội bóng vào yêu thích."),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Hủy"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                // Chuyển hướng đến trang đăng nhập (giả sử có LoginScreen)
+                Navigator.pushNamed(context, '/login');
+              },
+              child: const Text("Đăng nhập"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final teamId = widget.team.team?.id?.toString() ?? "0"; // Xử lý null
-    final leagueId = "39"; // Thay bằng giá trị hợp lệ
-    final seasonYear = "2023"; // Thay bằng giá trị hợp lệ
+    final teamId = widget.team.team?.id?.toString() ?? "0";
+    final leagueId = widget.leagueId;
+    final seasonYear = widget.seasonYear;
 
     return Scaffold(
       appBar: AppBar(
@@ -69,11 +145,7 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen>
               isFavorite ? Icons.star : Icons.star_border,
               color: Colors.yellow,
             ),
-            onPressed: () {
-              setState(() {
-                isFavorite = !isFavorite;
-              });
-            },
+            onPressed: _toggleFavorite,
           ),
         ],
         flexibleSpace: Container(
@@ -96,7 +168,7 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen>
         child: Column(
           children: [
             Container(
-              color: Color.fromARGB(158, 10, 10, 10),
+              color: const Color.fromARGB(158, 10, 10, 10),
               child: TabBar(
                 controller: _tabController,
                 labelColor: Colors.white,

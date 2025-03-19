@@ -361,7 +361,11 @@ class _StandingsScreenState extends State<StandingsScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => TeamDetailsScreen(team: team),
+                                  builder: (context) => TeamDetailsScreen(
+                                    team: team,
+                                    leagueId: leagueIds[selectedLeague]!, // Thêm leagueId
+                                    seasonYear: seasonIds[selectedSeason]!, // Thêm seasonYear
+                                    ),
                                 ),
                               );
                             },
@@ -380,7 +384,10 @@ class _StandingsScreenState extends State<StandingsScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => TeamDetailsScreen(team: team),
+                                  builder: (context) => TeamDetailsScreen(
+                                    team: team,
+                                    leagueId: leagueIds[selectedLeague]!, // Thêm leagueId
+                                    seasonYear: seasonIds[selectedSeason]!,),
                                 ),
                               );
                             },
@@ -402,7 +409,11 @@ class _StandingsScreenState extends State<StandingsScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => TeamDetailsScreen(team: team),
+                                  builder: (context) => TeamDetailsScreen(
+                                    team: team,
+                                    leagueId: leagueIds[selectedLeague]!, // Thêm leagueId
+                                    seasonYear: seasonIds[selectedSeason]!,
+                                    ),
                                 ),
                               );
                             },
@@ -421,7 +432,11 @@ class _StandingsScreenState extends State<StandingsScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => TeamDetailsScreen(team: team),
+                                  builder: (context) => TeamDetailsScreen(
+                                    team: team,
+                                    leagueId: leagueIds[selectedLeague]!, // Thêm leagueId
+                                    seasonYear: seasonIds[selectedSeason]!,
+                                  ),
                                 ),
                               );
                             },
@@ -440,7 +455,11 @@ class _StandingsScreenState extends State<StandingsScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => TeamDetailsScreen(team: team),
+                                  builder: (context) => TeamDetailsScreen(
+                                    team: team,
+                                    leagueId: leagueIds[selectedLeague]!, // Thêm leagueId
+                                    seasonYear: seasonIds[selectedSeason]!,
+                                  ),
                                 ),
                               );
                             },
@@ -459,7 +478,11 @@ class _StandingsScreenState extends State<StandingsScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => TeamDetailsScreen(team: team),
+                                  builder: (context) => TeamDetailsScreen(
+                                    team: team,
+                                    leagueId: leagueIds[selectedLeague]!, // Thêm leagueId
+                                    seasonYear: seasonIds[selectedSeason]!,
+                                  ),
                                 ),
                               );
                             },
@@ -478,7 +501,11 @@ class _StandingsScreenState extends State<StandingsScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => TeamDetailsScreen(team: team),
+                                  builder: (context) => TeamDetailsScreen(
+                                    team: team,
+                                    leagueId: leagueIds[selectedLeague]!, // Thêm leagueId
+                                    seasonYear: seasonIds[selectedSeason]!,
+                                  ),
                                 ),
                               );
                             },
@@ -497,7 +524,11 @@ class _StandingsScreenState extends State<StandingsScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => TeamDetailsScreen(team: team),
+                                  builder: (context) => TeamDetailsScreen(
+                                    team: team,
+                                    leagueId: leagueIds[selectedLeague]!, // Thêm leagueId
+                                    seasonYear: seasonIds[selectedSeason]!,
+                                  ),
                                 ),
                               );
                             },
@@ -516,7 +547,11 @@ class _StandingsScreenState extends State<StandingsScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => TeamDetailsScreen(team: team),
+                                  builder: (context) => TeamDetailsScreen(
+                                    team: team,
+                                    leagueId: leagueIds[selectedLeague]!, // Thêm leagueId
+                                    seasonYear: seasonIds[selectedSeason]!,
+                                  ),
                                 ),
                               );
                             },
@@ -535,7 +570,11 @@ class _StandingsScreenState extends State<StandingsScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => TeamDetailsScreen(team: team),
+                                  builder: (context) => TeamDetailsScreen(
+                                    team: team,
+                                    leagueId: leagueIds[selectedLeague]!, // Thêm leagueId
+                                    seasonYear: seasonIds[selectedSeason]!,
+                                  ),
                                 ),
                               );
                             },
@@ -655,7 +694,11 @@ class _StandingsScreenState extends State<StandingsScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TeamDetailsScreen(team: team),
+                          builder: (context) => TeamDetailsScreen(
+                            team: team,
+                            leagueId: leagueIds[selectedLeague]!,
+                            seasonYear: seasonIds[selectedSeason]!,
+                          ),
                         ),
                       );
                     },
@@ -677,7 +720,11 @@ class _StandingsScreenState extends State<StandingsScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TeamDetailsScreen(team: team),
+                          builder: (context) => TeamDetailsScreen(
+                            team: team,
+                            leagueId: leagueIds[selectedLeague]!,
+                            seasonYear: seasonIds[selectedSeason]!,
+                          ),
                         ),
                       );
                     },

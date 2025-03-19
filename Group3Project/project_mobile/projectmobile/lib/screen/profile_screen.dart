@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:projectmobile/screen/Athu/terms_screen.dart'; // Import trang điều khoản
 import 'package:projectmobile/screen/Athu/about_screen.dart'; // Import màn hình Giới thiệu
 import 'package:projectmobile/screen/Athu/setting_screen.dart';
+import 'package:projectmobile/screen/Team/favorite_teams_screen.dart';
 
 
 class ProfileScreen extends StatefulWidget {
@@ -124,7 +125,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             );
                           },
                         ),
-                      _buildMenuItem(icon: Icons.notifications, title: 'Thông báo'),
+                      _buildMenuItem(
+                        icon: Icons.star, 
+                        title: 'Yêu thích',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => FavoriteTeamsScreen()),
+                          );
+                        },
+                      ),
                       _buildMenuItem(
                           icon: Icons.info,
                           title: 'Giới thiệu',
