@@ -25,8 +25,8 @@ class MatchEventsTab extends StatelessWidget {
         events.sort((a, b) => a.time.compareTo(b.time)); // Sắp xếp theo thời gian
 
         final teamIds = events.map((e) => e.teamId).toSet().toList();
-        final teamA = teamIds.isNotEmpty ? teamIds[0] : null;
-        final teamB = teamIds.length > 1 ? teamIds[1] : null;
+        final teamB = teamIds.isNotEmpty ? teamIds[0] : null;
+        final teamA = teamIds.length > 1 ? teamIds[1] : null;
 
         return Container(
           color: Colors.black,

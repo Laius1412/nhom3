@@ -26,8 +26,9 @@ class _MatchDetailScreenState extends State<MatchDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: AppBar(
-        title: Text("${widget.match.homeTeam} vs ${widget.match.awayTeam}", style: TextStyle(color: Colors.white)),
+      appBar: AppBar(
+        title: Text("${widget.match.homeTeam} vs ${widget.match.awayTeam}",
+            style: TextStyle(color: Colors.white)),
         iconTheme: const IconThemeData(color: Colors.white),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
@@ -63,6 +64,8 @@ class _MatchDetailScreenState extends State<MatchDetailScreen> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   SizedBox(height: 10),
+                  
+                  /// Bố cục đối xứng
                   Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
@@ -76,39 +79,27 @@ class _MatchDetailScreenState extends State<MatchDetailScreen> {
                     child: Column(
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            _teamColumn(match.homeTeam, match.homeLogo),
-                            Text(
-                              "${match.homeGoals} - ${match.awayGoals}",
-                              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                            Expanded(child: _teamColumn(match.homeTeam, match.homeLogo)),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(
+                                "${match.homeGoals} - ${match.awayGoals}",
+                                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                              ),
                             ),
-                            _teamColumn(match.awayTeam, match.awayLogo),
+                            Expanded(child: _teamColumn(match.awayTeam, match.awayLogo)),
                           ],
                         ),
                         SizedBox(height: 16),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Trạng thái: ${match.status}",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              SizedBox(height: 8),
-                              Text(
-                                "Thời gian: ${match.elapsedTime}'",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
+                        Text(
+                          "⏳ ${match.elapsedTime}' - ${match.status}",
+                          style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                   ),
+
                   SizedBox(height: 20),
                   DefaultTabController(
                     length: 3,
@@ -146,12 +137,29 @@ class _MatchDetailScreenState extends State<MatchDetailScreen> {
     );
   }
 
+  /// Hàm hiển thị tên + logo đội bóng (cân đối chiều ngang)
   Widget _teamColumn(String teamName, String logoUrl) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.network(logoUrl, width: 50, height: 50),
+        Image.network(
+          logoUrl,
+          width: 50,
+          height: 50,
+          errorBuilder: (context, error, stackTrace) =>
+              Icon(Icons.sports_soccer, size: 50, color: Colors.grey),
+        ),
         SizedBox(height: 4),
-        Text(teamName, style: TextStyle(fontSize: 16, color: Colors.white)),
+        SizedBox(
+          width: 100, // Giới hạn chiều rộng tên đội bóng
+          child: Text(
+            teamName,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 16, color: Colors.white),
+          ),
+        ),
       ],
     );
   }
