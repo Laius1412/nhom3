@@ -80,7 +80,7 @@ class _MatchDetailScreenState extends State<MatchDetailScreen> {
                       children: [
                         Row(
                           children: [
-                            Expanded(child: _teamColumn(match.homeTeam, match.homeLogo)),
+                            Expanded(child: _teamColumn(match.homeTeam, match.homeLogo)), // giúp hai đội có kích thước bằng nhau
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: Text(

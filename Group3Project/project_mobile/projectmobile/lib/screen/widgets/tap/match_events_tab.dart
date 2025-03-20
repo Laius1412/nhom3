@@ -60,6 +60,7 @@ class MatchEventsTab extends StatelessWidget {
 
                     return Row(
                       children: [
+                        // hiển thị sự kiện của đội A
                         Expanded(
                           child: isTeamA ? EventItem(event: event, alignRight: false) : const SizedBox(),
                         ),
@@ -106,52 +107,83 @@ class EventItem extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: alignRight ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 2),
-        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
-        decoration: BoxDecoration(
-          color: Colors.grey[900],
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (!alignRight) ...[
-              Icon(getEventIcon(event.type, event.detail), color: getEventColor(event.type, event.detail), size: 14),
-              const SizedBox(width: 4),
-            ],
-            Column(
-              crossAxisAlignment: alignRight ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-              children: [
-                Text(
+Widget build(BuildContext context) {
+  return Align(
+    alignment: alignRight ? Alignment.centerRight : Alignment.centerLeft,
+    child: Container(
+      margin: const EdgeInsets.symmetric(vertical: 2),
+      padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (!alignRight) ...[
+            Icon(getEventIcon(event.type, event.detail), 
+                color: getEventColor(event.type, event.detail), 
+                size: 14),
+            const SizedBox(width: 4),
+          ],
+          Column(
+            crossAxisAlignment: alignRight ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 120, // Giới hạn độ rộng tối đa
+                child: Text(
                   "${event.time}' - ${event.player}",
                   style: const TextStyle(color: Colors.white, fontSize: 12),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis, // Cắt bớt nếu quá dài
                 ),
-                if (event.type == 'Goal' && event.assist != null)
-                  Text(
+              ),
+              if (event.type == 'Goal' && event.assist != null)
+                SizedBox(
+                  width: 120, 
+                  child: Text(
                     "Kiến tạo: ${event.assist}",
                     style: const TextStyle(color: Colors.grey, fontSize: 10),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                if (event.type == 'subst')
-                  Row(
-                    children: [
-                      Text('${event.player}', style: const TextStyle(color: Colors.red, fontSize: 10)),
-                      const SizedBox(width: 4),
-                      Text('${event.assist}', style: const TextStyle(color: Colors.green, fontSize: 10)),
-                    ],
-                  ),
-              ],
-            ),
-            if (alignRight) ...[
-              const SizedBox(width: 4),
-              Icon(getEventIcon(event.type, event.detail), color: getEventColor(event.type, event.detail), size: 14),
+                ),
+              if (event.type == 'subst')
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 60, 
+                      child: Text(
+                        '${event.player}',
+                        style: const TextStyle(color: Colors.red, fontSize: 10),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    SizedBox(
+                      width: 60, 
+                      child: Text(
+                        '${event.assist}',
+                        style: const TextStyle(color: Colors.green, fontSize: 10),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
             ],
+          ),
+          if (alignRight) ...[
+            const SizedBox(width: 4),
+            Icon(getEventIcon(event.type, event.detail), 
+                color: getEventColor(event.type, event.detail), 
+                size: 14),
           ],
-        ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
