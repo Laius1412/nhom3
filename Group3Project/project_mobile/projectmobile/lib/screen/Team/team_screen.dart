@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projectmobile/Model/scoccerModel.dart';
 import 'package:projectmobile/screen/Team/match_schedule_screen.dart';
 import 'package:projectmobile/screen/Team/player_stats_screen.dart';
@@ -40,33 +40,27 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen>
     super.dispose();
   }
 
-  /// 🔹 Load trạng thái yêu thích từ SharedPreferences
+  bool isLoggedIn() {
+    return FirebaseAuth.instance.currentUser != null;
+  }
+
   Future<void> _loadFavoriteStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String teamId = widget.team.team?.id?.toString() ?? "0";
+    bool favorite = await FavoriteTeamStorage.isFavoriteTeam(teamId);
     setState(() {
-      isFavorite = prefs.getBool('favorite_${widget.team.team?.id}') ?? false;
+      isFavorite = favorite;
     });
   }
 
-  /// 🔹 Thay đổi trạng thái yêu thích và lưu vào SharedPreferences
   Future<void> _toggleFavorite() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isLoggedIn = prefs.getBool("isLoggedIn") ?? false; // Kiểm tra đăng nhập
-
-    if (!isLoggedIn) {
-      // Hiển thị thông báo yêu cầu đăng nhập
+    if (!isLoggedIn()) {
       _showLoginDialog();
-      return; // Thoát khỏi hàm, không cho phép thêm vào yêu thích
+      return;
     }
 
-    setState(() {
-      isFavorite = !isFavorite;
-    });
-
-    await prefs.setBool('favorite_${widget.team.team?.id}', isFavorite);
-
+    String teamId = widget.team.team?.id?.toString() ?? "0";
     Map<String, String> teamData = {
-      "id": widget.team.team?.id?.toString() ?? "0",
+      "id": teamId,
       "name": widget.team.team?.name ?? "No Name",
       "logo": widget.team.team?.logo ?? "",
       "leagueId": widget.leagueId,
@@ -74,10 +68,14 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen>
     };
 
     if (isFavorite) {
-      await FavoriteTeamStorage.addFavoriteTeam(teamData);
+      await FavoriteTeamStorage.removeFavoriteTeam(teamId);
     } else {
-      await FavoriteTeamStorage.removeFavoriteTeam(teamData);
+      await FavoriteTeamStorage.addFavoriteTeam(teamData);
     }
+
+    setState(() {
+      isFavorite = !isFavorite;
+    });
   }
 
   void _showLoginDialog() {
@@ -95,7 +93,6 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen>
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                // Chuyển hướng đến trang đăng nhập (giả sử có LoginScreen)
                 Navigator.pushNamed(context, '/login');
               },
               child: const Text("Đăng nhập"),
