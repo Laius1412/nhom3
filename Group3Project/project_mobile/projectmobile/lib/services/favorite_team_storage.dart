@@ -1,53 +1,62 @@
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FavoriteTeamStorage {
-  static const String _favoriteKey = "favorite_teams";
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  /// ✅ Thêm đội bóng vào danh sách yêu thích
-  static Future<void> addFavoriteTeam(Map<String, String> team) async {
-    final prefs = await SharedPreferences.getInstance();
-    List<String> favoriteTeams = prefs.getStringList(_favoriteKey) ?? [];
-
-    // Lưu danh sách ID thay vì lưu cả object
-    if (!favoriteTeams.contains(team["id"])) {
-      favoriteTeams.add(team["id"]!);
-      await prefs.setStringList(_favoriteKey, favoriteTeams);
-    }
-
-    // Lưu thông tin đội bóng vào một key riêng
-    await prefs.setString("team_${team['id']}", jsonEncode(team));
-  }
-
-  /// ✅ Lấy danh sách đội bóng yêu thích
-  static Future<List<Map<String, String>>> getFavoriteTeams() async {
-    final prefs = await SharedPreferences.getInstance();
-    List<String> favoriteIds = prefs.getStringList(_favoriteKey) ?? [];
-
-    List<Map<String, String>> teams = [];
-    for (String id in favoriteIds) {
-      String? teamJson = prefs.getString("team_$id");
-      if (teamJson != null) {
-        teams.add(Map<String, String>.from(jsonDecode(teamJson)));
-      }
-    }
-    return teams;
-  }
-
-  /// ✅ Xóa một đội bóng khỏi danh sách yêu thích
-  static Future<void> removeFavoriteTeam(String teamId) async {
-    final prefs = await SharedPreferences.getInstance();
-    List<String> favoriteTeams = prefs.getStringList(_favoriteKey) ?? [];
-
-    favoriteTeams.remove(teamId);
-    await prefs.setStringList(_favoriteKey, favoriteTeams);
-    await prefs.remove("team_$teamId"); // Xóa dữ liệu chi tiết đội bóng
-  }
-
-  /// ✅ Kiểm tra xem đội bóng có trong danh sách yêu thích không
+  // Kiểm tra xem đội bóng có trong danh sách yêu thích không
   static Future<bool> isFavoriteTeam(String teamId) async {
-    final prefs = await SharedPreferences.getInstance();
-    List<String> favoriteTeams = prefs.getStringList(_favoriteKey) ?? [];
-    return favoriteTeams.contains(teamId);
+    final user = _auth.currentUser;
+    if (user == null) return false;
+
+    final doc = await _firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('favorite_teams')
+        .doc(teamId)
+        .get();
+
+    return doc.exists;
+  }
+
+  // Thêm đội bóng vào danh sách yêu thích
+  static Future<void> addFavoriteTeam(Map<String, String> teamData) async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    await _firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('favorite_teams')
+        .doc(teamData['id'])
+        .set(teamData);
+  }
+
+  // Xóa đội bóng khỏi danh sách yêu thích
+  static Future<void> removeFavoriteTeam(String teamId) async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    await _firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('favorite_teams')
+        .doc(teamId)
+        .delete();
+  }
+
+  // Lấy danh sách đội bóng yêu thích từ Firestore
+  static Future<List<Map<String, dynamic>>> getFavoriteTeams() async {
+    final user = _auth.currentUser;
+    if (user == null) return [];
+
+    final snapshot = await _firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('favorite_teams')
+        .get();
+
+    return snapshot.docs.map((doc) => doc.data()).toList();
   }
 }

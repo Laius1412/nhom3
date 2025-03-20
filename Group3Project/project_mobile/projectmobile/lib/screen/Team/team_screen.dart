@@ -43,40 +43,42 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen>
   bool isLoggedIn() {
     return FirebaseAuth.instance.currentUser != null;
   }
-
   Future<void> _loadFavoriteStatus() async {
-    String teamId = widget.team.team?.id?.toString() ?? "0";
-    bool favorite = await FavoriteTeamStorage.isFavoriteTeam(teamId);
-    setState(() {
-      isFavorite = favorite;
-    });
+  String teamId = widget.team.team?.id?.toString() ?? "0";
+  bool favorite = await FavoriteTeamStorage.isFavoriteTeam(teamId);
+  setState(() {
+    isFavorite = favorite;
+  });
+}
+
+Future<void> _toggleFavorite() async {
+  if (!isLoggedIn()) {
+    _showLoginDialog();
+    return;
   }
 
-  Future<void> _toggleFavorite() async {
-    if (!isLoggedIn()) {
-      _showLoginDialog();
-      return;
-    }
+  String teamId = widget.team.team?.id?.toString() ?? "0";
+  Map<String, String> teamData = {
+    "id": teamId,
+    "name": widget.team.team?.name ?? "No Name",
+    "logo": widget.team.team?.logo ?? "",
+    "leagueId": widget.leagueId,
+    "seasonYear": widget.seasonYear,
+  };
 
-    String teamId = widget.team.team?.id?.toString() ?? "0";
-    Map<String, String> teamData = {
-      "id": teamId,
-      "name": widget.team.team?.name ?? "No Name",
-      "logo": widget.team.team?.logo ?? "",
-      "leagueId": widget.leagueId,
-      "seasonYear": widget.seasonYear,
-    };
-
-    if (isFavorite) {
-      await FavoriteTeamStorage.removeFavoriteTeam(teamId);
-    } else {
-      await FavoriteTeamStorage.addFavoriteTeam(teamData);
-    }
-
-    setState(() {
-      isFavorite = !isFavorite;
-    });
+  if (isFavorite) {
+    await FavoriteTeamStorage.removeFavoriteTeam(teamId);
+  } else {
+    await FavoriteTeamStorage.addFavoriteTeam(teamData);
   }
+
+  setState(() {
+    isFavorite = !isFavorite;
+  });
+}
+
+
+
 
   void _showLoginDialog() {
     showDialog(

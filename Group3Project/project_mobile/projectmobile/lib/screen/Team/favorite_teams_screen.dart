@@ -10,7 +10,7 @@ class FavoriteTeamsScreen extends StatefulWidget {
 }
 
 class _FavoriteTeamsScreenState extends State<FavoriteTeamsScreen> {
-  List<Map<String, String>> favoriteTeams = [];
+  List<Map<String, dynamic>> favoriteTeams = [];
 
   @override
   void initState() {
@@ -19,12 +19,12 @@ class _FavoriteTeamsScreenState extends State<FavoriteTeamsScreen> {
   }
 
   Future<void> _loadFavoriteTeams() async {
-    List<Map<String, String>> teams = await FavoriteTeamStorage.getFavoriteTeams();
+    List<Map<String, dynamic>> teams = await FavoriteTeamStorage.getFavoriteTeams();
     setState(() {
       favoriteTeams = teams;
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
