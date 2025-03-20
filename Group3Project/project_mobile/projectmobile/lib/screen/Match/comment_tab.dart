@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projectmobile/services/comment_service.dart';
@@ -45,6 +46,10 @@ class _CommentTabState extends State<CommentTab> {
 
   void _deleteComment(String commentId) async {
     await _commentService.deleteComment(commentId);
+  }
+
+  void _copyComment(String text) {
+    Clipboard.setData(ClipboardData(text: text));
   }
 
   String _formatTimestamp(Timestamp? timestamp) {
@@ -155,6 +160,10 @@ class _CommentTabState extends State<CommentTab> {
                         onSelected: (value) {
                           if (value == 'delete') {
                             _deleteComment(commentId);
+                          } else if (value == 'copy') {
+                            _copyComment(comment['commentText']);
+                          } else if (value == 'reply') {
+                            // Thêm xử lý trả lời ở đây nếu cần
                           }
                         },
                         itemBuilder: (BuildContext context) {
@@ -168,8 +177,33 @@ class _CommentTabState extends State<CommentTab> {
                                       style: TextStyle(fontSize: 12),
                                     ),
                                   ),
+                                  PopupMenuItem(
+                                    value: 'copy',
+                                    height: 20,
+                                    child: Text(
+                                      'Sao chép',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ),
                                 ]
-                              : [];
+                              : [
+                                  PopupMenuItem(
+                                    value: 'reply',
+                                    height: 20,
+                                    child: Text(
+                                      'Trả lời',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ),
+                                  PopupMenuItem(
+                                    value: 'copy',
+                                    height: 20,
+                                    child: Text(
+                                      'Sao chép',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ),
+                                ];
                         },
                       ),
                     );
