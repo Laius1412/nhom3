@@ -22,54 +22,33 @@ class MatchEventsTab extends StatelessWidget {
         }
 
         final events = snapshot.data!;
-        events.sort((a, b) => a.time.compareTo(b.time)); // Sắp xếp theo thời gian
-
-        final teamIds = events.map((e) => e.teamId).toSet().toList();
-        final teamB = teamIds.isNotEmpty ? teamIds[0] : null;
-        final teamA = teamIds.length > 1 ? teamIds[1] : null;
+        events.sort((a, b) => a.time.compareTo(b.time)); // ✅ Sắp xếp theo thời gian
 
         return Container(
           color: Colors.black,
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
+              // ✅ Hiển thị tên đội (Đội nhà bên trái, Đội khách bên phải)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  teamA != null
-                      ? Text(
-                          events.firstWhere((e) => e.teamId == teamA).teamName,
-                          style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                        )
-                      : const SizedBox(),
-                  teamB != null
-                      ? Text(
-                          events.firstWhere((e) => e.teamId == teamB).teamName,
-                          style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                        )
-                      : const SizedBox(),
+                  Text(match.homeTeam,
+                      style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+                  Text(match.awayTeam,
+                      style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
                 ],
               ),
               const Divider(color: Colors.grey),
+
+              // ✅ Hiển thị danh sách sự kiện theo thời gian
               Expanded(
                 child: ListView.builder(
                   itemCount: events.length,
                   itemBuilder: (context, index) {
                     final event = events[index];
-                    final isTeamA = event.teamId == teamA;
-
-                    return Row(
-                      children: [
-                        // hiển thị sự kiện của đội A
-                        Expanded(
-                          child: isTeamA ? EventItem(event: event, alignRight: false) : const SizedBox(),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: !isTeamA ? EventItem(event: event, alignRight: true) : const SizedBox(),
-                        ),
-                      ],
-                    );
+                    bool isHomeTeam = event.teamId == match.homeTeamId;
+                    return EventItem(event: event, alignRight: !isHomeTeam);
                   },
                 ),
               ),
@@ -81,6 +60,7 @@ class MatchEventsTab extends StatelessWidget {
   }
 }
 
+// 📌 Widget hiển thị từng sự kiện
 class EventItem extends StatelessWidget {
   final MatchEvent event;
   final bool alignRight;
@@ -107,83 +87,82 @@ class EventItem extends StatelessWidget {
   }
 
   @override
-Widget build(BuildContext context) {
-  return Align(
-    alignment: alignRight ? Alignment.centerRight : Alignment.centerLeft,
-    child: Container(
-      margin: const EdgeInsets.symmetric(vertical: 2),
-      padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
-      decoration: BoxDecoration(
-        color: Colors.grey[900],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (!alignRight) ...[
-            Icon(getEventIcon(event.type, event.detail), 
-                color: getEventColor(event.type, event.detail), 
-                size: 14),
-            const SizedBox(width: 4),
-          ],
-          Column(
-            crossAxisAlignment: alignRight ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 120, // Giới hạn độ rộng tối đa
-                child: Text(
-                  "${event.time}' - ${event.player}",
-                  style: const TextStyle(color: Colors.white, fontSize: 12),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis, // Cắt bớt nếu quá dài
-                ),
-              ),
-              if (event.type == 'Goal' && event.assist != null)
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: alignRight ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 2),
+        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+        decoration: BoxDecoration(
+          color: Colors.grey[900],
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (!alignRight) ...[
+              Icon(getEventIcon(event.type, event.detail), 
+                  color: getEventColor(event.type, event.detail), 
+                  size: 14),
+              const SizedBox(width: 4),
+            ],
+            Column(
+              crossAxisAlignment: alignRight ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              children: [
                 SizedBox(
-                  width: 120, 
+                  width: 120, // Giới hạn độ rộng tối đa
                   child: Text(
-                    "Kiến tạo: ${event.assist}",
-                    style: const TextStyle(color: Colors.grey, fontSize: 10),
+                    "${event.time}' - ${event.player}",
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
                     maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    overflow: TextOverflow.ellipsis, // Cắt bớt nếu quá dài
                   ),
                 ),
-              if (event.type == 'subst')
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 60, 
-                      child: Text(
-                        '${event.player}',
-                        style: const TextStyle(color: Colors.red, fontSize: 10),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                if (event.type == 'Goal' && event.assist != null)
+                  SizedBox(
+                    width: 120, 
+                    child: Text(
+                      "Kiến tạo: ${event.assist}",
+                      style: const TextStyle(color: Colors.grey, fontSize: 10),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(width: 4),
-                    SizedBox(
-                      width: 60, 
-                      child: Text(
-                        '${event.assist}',
-                        style: const TextStyle(color: Colors.green, fontSize: 10),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                  ),
+                if (event.type == 'subst')
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 60, 
+                        child: Text(
+                          '${event.player}',
+                          style: const TextStyle(color: Colors.red, fontSize: 10),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                      const SizedBox(width: 4),
+                      SizedBox(
+                        width: 60, 
+                        child: Text(
+                          '${event.assist}',
+                          style: const TextStyle(color: Colors.green, fontSize: 10),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+              ],
+            ),
+            if (alignRight) ...[
+              const SizedBox(width: 4),
+              Icon(getEventIcon(event.type, event.detail), 
+                  color: getEventColor(event.type, event.detail), 
+                  size: 14),
             ],
-          ),
-          if (alignRight) ...[
-            const SizedBox(width: 4),
-            Icon(getEventIcon(event.type, event.detail), 
-                color: getEventColor(event.type, event.detail), 
-                size: 14),
           ],
-        ],
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }

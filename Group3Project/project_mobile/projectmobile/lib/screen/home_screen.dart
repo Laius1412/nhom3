@@ -58,6 +58,23 @@ class _HomeScreenState extends State<HomeScreen> {
           "Barcelona vừa có chiến thắng quan trọng để rút ngắn khoảng cách với Real Madrid trong cuộc đua vô địch La Liga. Đội bóng xứ Catalan đã thể hiện phong độ ấn tượng với lối chơi tấn công áp đảo.\n\nHiệp 1: Barcelona kiểm soát hoàn toàn\nNgay từ đầu trận, Barcelona đã tạo sức ép lên khung thành đối phương. Phút 12, Robert Lewandowski mở tỷ số sau một pha phối hợp đẹp mắt với Gavi. Đến phút 30, Raphinha nhân đôi cách biệt với một cú sút xa đẳng cấp.\n\nHiệp 2: Chiến thắng thuyết phục\nSang hiệp hai, Barcelona tiếp tục duy trì thế trận tấn công. Phút 60, Joao Félix ghi bàn nâng tỷ số lên 3-0 sau pha đi bóng và dứt điểm tinh tế. Trước khi trận đấu khép lại, Pedri ghi bàn ấn định chiến thắng 4-0, giúp Barcelona giành trọn vẹn 3 điểm.\n\nTổng kết\nVới chiến thắng này, Barcelona chỉ còn kém Real Madrid 2 điểm trên bảng xếp hạng, tiếp tục nuôi hy vọng giành chức vô địch mùa giải năm nay.\n\nCầu thủ xuất sắc nhất trận đấu: Raphinha"
     },
   ];
+  final List<Map<String, String>> newsLists =[
+    {
+      "title": "Báo cáo trận đấu: Preston Lions vs Oakleigh Cannons",
+      "image": "assets/c1.jpg",
+      "content": "Trận đấu giữa Preston Lions và Oakleigh Cannons diễn ra vào lúc 16h30 ngày 21/3 trong khuôn khổ giải NPL Victoria. Cả hai đội đều hướng đến một chiến thắng quan trọng để cải thiện vị trí trên bảng xếp hạng.\n\nHiệp 1: Trận đấu căng thẳng\n\nNgay từ những phút đầu tiên, cả Preston Lions và Oakleigh Cannons đều thi đấu với quyết tâm cao. Preston Lions tận dụng lợi thế sân nhà để tổ chức các pha tấn công dồn dập. Tuy nhiên, Oakleigh Cannons cũng cho thấy sự chắc chắn trong khâu phòng ngự.\n\nPhút thứ 20, Preston Lions có cơ hội nguy hiểm đầu tiên nhưng thủ môn của Oakleigh Cannons đã phản xạ xuất sắc. Đội khách đáp trả bằng những pha phản công sắc bén nhưng chưa thể có bàn thắng.\n\nHiệp 2: Cục diện thay đổi\n\nBước sang hiệp hai, tốc độ trận đấu được đẩy lên cao hơn. Cả hai đội đều có những cơ hội nguy hiểm nhưng chưa đội nào tận dụng thành công. Oakleigh Cannons có một tình huống dứt điểm nguy hiểm ở phút 75 nhưng bóng lại đi chệch cột dọc.\n\nTrận đấu kết thúc với tỷ số hòa hoặc một đội giành chiến thắng sát nút, tùy vào diễn biến thực tế của trận đấu."
+    },
+      {
+      "title": "Cristiano Ronaldo tỏa sáng trong trận đấu của Bồ Đào Nha",
+      "image": "assets/c2.jpg",
+      "content": "Cristiano Ronaldo một lần nữa chứng tỏ đẳng cấp của mình khi ghi bàn quan trọng trong trận đấu của đội tuyển Bồ Đào Nha. Trận đấu diễn ra trong không khí sôi động, với sự cổ vũ cuồng nhiệt từ khán giả.\n\nHiệp 1: Bồ Đào Nha kiểm soát thế trận\n\nNgay từ những phút đầu tiên, Bồ Đào Nha đã kiểm soát bóng và tổ chức nhiều pha tấn công nguy hiểm. Ronaldo liên tục gây sức ép lên hàng thủ đối phương bằng tốc độ và kỹ thuật xuất sắc.\n\nPhút 25, CR7 có một pha băng cắt thông minh, nhận đường chuyền từ đồng đội và dứt điểm chính xác, mở tỷ số cho Bồ Đào Nha. Bàn thắng này không chỉ giúp đội nhà có lợi thế mà còn nâng cao tinh thần của các cầu thủ.\n\nHiệp 2: Ronaldo khẳng định đẳng cấp\n\nBước sang hiệp hai, Ronaldo tiếp tục là tâm điểm của trận đấu. Phút 60, anh có pha solo đẹp mắt vượt qua hai hậu vệ trước khi tung cú sút hiểm hóc, nâng tỷ số lên 2-0 cho Bồ Đào Nha.\n\nTrận đấu kết thúc với chiến thắng cho Bồ Đào Nha, và Ronaldo tiếp tục khẳng định mình là một trong những cầu thủ vĩ đại nhất lịch sử bóng đá."
+    },
+    {
+      "title": "Real Madrid giành chiến thắng kịch tính trước Valencia",
+      "image": "assets/c3.jpg",
+      "content": "Real Madrid đã có một trận đấu đầy cảm xúc khi đánh bại Valencia trong một cuộc đối đầu kịch tính tại La Liga. Các cầu thủ áo trắng đã thể hiện tinh thần chiến đấu tuyệt vời để giành trọn 3 điểm.\n\nHiệp 1: Khởi đầu căng thẳng\n\nCả hai đội nhập cuộc với tốc độ cao, tạo ra nhiều pha bóng nguy hiểm. Valencia có cơ hội nguy hiểm đầu tiên nhưng thủ môn của Real Madrid đã có pha cản phá xuất sắc.\n\nPhút 30, Real Madrid mở tỷ số sau một pha phối hợp đẹp mắt. Vinícius Jr. thực hiện đường kiến tạo hoàn hảo để Rodrygo dứt điểm chính xác, đưa đội khách vượt lên dẫn trước 1-0.\n\nHiệp 2: Kịch tính đến phút cuối\n\nValencia nhanh chóng đáp trả bằng bàn gỡ hòa ở phút 55, khiến trận đấu trở nên căng thẳng hơn. Tuy nhiên, Real Madrid không chấp nhận chia điểm. Phút 85, Jude Bellingham có pha solo ấn tượng trước khi kiến tạo cho đồng đội ấn định chiến thắng 2-1.\n\nChiến thắng này giúp Real Madrid củng cố vị trí trên bảng xếp hạng và tiếp tục cuộc đua vô địch La Liga."
+    },
+  ];
 
   final List<String> videoUrls = [
     'assets/videos/3.mp4',
@@ -124,6 +141,8 @@ class _HomeScreenState extends State<HomeScreen> {
           _buildNewsList(),
           _buildSectionTitle('Live Score', Icons.sports), // Tiêu đề Live Score
           LiveMatchesSlider(), // Hiển thị danh sách trận đấu đang diễn ra
+          _buildSectionTitle('Latest News', Icons.article),
+          _buildNewsLists(),
         ],
       ),
       backgroundColor: Colors.black,
@@ -272,6 +291,82 @@ class _HomeScreenState extends State<HomeScreen> {
       itemCount: newsList.length,
       itemBuilder: (context, index) {
         final news = newsList[index];
+
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ArticleScreen(
+                  title: news["title"]!,
+                  imageUrl: news["image"]!,
+                  content: news["content"]!,
+                ),
+              ),
+            );
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Ảnh bài viết
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.asset(news["image"]!,
+                      width: 120, height: 80, fit: BoxFit.cover),
+                ),
+                SizedBox(width: 10),
+
+                // Phần tiêu đề và icon bình luận
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        news["title"]!,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                      SizedBox(height: 4),
+
+                      // Phần hiển thị số bình luận với icon
+                      Row(
+                        children: [
+                          Icon(Icons.comment, size: 16, color: Colors.green),
+                          SizedBox(width: 4),
+                          Text(
+                            news["comments"] ??
+                                "0", // Lấy số bình luận từ dữ liệu
+                            style: TextStyle(fontSize: 14, color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+  /// Widget: Danh sách tin tức 2
+  Widget _buildNewsLists() {
+    return ListView.builder(
+      shrinkWrap: true, // Giúp danh sách chiếm diện tích vừa đủ
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: newsLists.length,
+      itemBuilder: (context, index) {
+        final news = newsLists[index];
 
         return GestureDetector(
           onTap: () {
